@@ -1,0 +1,29 @@
+ra1 Model Gateway
+Copyright 2026 ra1 Engineering & Contributors
+
+This product contains software derived from or inspired by open-source projects under permissive licenses:
+
+1. Portkey AI Gateway
+   Copyright (c) 2023 Portkey AI
+   License: MIT
+   Pinned SHA: 669825cbe89ee51569918b8f78a9db486fd69dd4
+
+2. Bifrost (Maxim AI)
+   Copyright (c) 2024 Maxim AI
+   License: Apache License 2.0
+   Pinned SHA: fa64346b5aabbfa348c0e1e085dc7b3538bc53f3
+
+3. Envoy AI Gateway
+   Copyright (c) 2024 Envoy AI Gateway Authors
+   License: Apache License 2.0
+   Pinned SHA: 12fef6422579f544e84be8167d0979527d3576d4
+
+4. LiteLLM (Core non-enterprise modules)
+   Copyright (c) 2023 BerriAI
+   License: MIT
+   Pinned SHA: 7e6fb09da3987c8b75062307695f9083da55feed
+   (All enterprise/ and proprietary directories strictly excluded)
+
+Clean-Room Implementations (AGPL Sources - No Code Borrowed or Adapted):
+- LLM Gateway (SHA: d41bf1907759c492d7daf7fb6b6f296980982c09) - Clean-room spec verified
+- Grepture Proxy (SHA: fc4a569249a06798cf4db698ae7d32a15b43986c) - Clean-room spec verified
