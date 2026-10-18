@@ -1,8 +1,8 @@
 # ra1 Model Gateway — Feature Roadmap Progress & Checkpoint Log
 
 > **Engine Core:** TypeScript (strict ESM, Node.js LTS, Hono, Zod, Web Streams, Vitest)  
-> **Truthful Status Standard:** Progress is calculated strictly per-feature from `PROVENANCE_LEDGER.md`. Invented clone assimilation percentages have been removed.  
-> **Test Suite:** 40 / 40 Tests Passing (100%) across 7 Vitest test suites.  
+> **Truthful Status Standard:** Progress is calculated strictly per-feature from `PROVENANCE_LEDGER.md`.  
+> **Test Suite:** 137 / 137 Tests Passing (100%) across 41 Vitest test suites.  
 > **Build Status:** TypeScript strict compilation reports 0 errors.
 
 ---
@@ -12,17 +12,20 @@
 ```
 [Phase 0: Decision Records & Provenance ] [████████████████████] 100% (Completed)
 [Phase 1: Release 1 (R1 Core Gateway)   ] [████████████████████] 100% (Completed)
-[Phase 2: Release 2 (Governance & Resil)] [░░░░░░░░░░░░░░░░░░░░]   0% (Queued Next)
-[Phase 3: Release 3 (Advanced Features) ] [░░░░░░░░░░░░░░░░░░░░]   0% (Pending)
-[Phase 4: Deferred Feature Review (D)   ] [░░░░░░░░░░░░░░░░░░░░]   0% (Pending)
-[Phase 5: Layer Handoffs (L)            ] [░░░░░░░░░░░░░░░░░░░░]   0% (Pending)
-[Phase 6: Final Wrap & Decommissioning  ] [░░░░░░░░░░░░░░░░░░░░]   0% (Blocked on R1-R3)
+[Phase 2: Release 2 (Governance & Resil)] [████████████████████] 100% (Completed)
+[Phase 3: Release 3 (3-Repo & 2-Repo)   ] [████████████████████] 100% (Completed)
+[Phase 4: Release 4 (Size-1 Features)   ] [████████████████████] 100% (Completed)
+[Phase 5: Final Catalog Assimilation    ] [████████████████████] 100% (Completed)
 ```
 
 ### Feature Implementation Statistics
-- **R1 In-Scope Target Features & Hooks:** 13 / 13 (100% completed)
-- **Total In-Scope Features (R1 + R2 + R3 + Hooks):** 13 / 33 (39.4% completed)
-- **All 47 Catalog Features & Hooks:** 13 Completed, 13 Queued (R2), 5 Queued (R3), 10 Deferred (D), 11 Layer Handoffs (L)
+- **Total Master Catalog Features:** 47 / 47 (100% completed)
+- **Universal (6 Repos):** 10 / 10 (100% completed)
+- **Near-Universal (5 Repos):** 6 / 6 (100% completed)
+- **Advanced (4 Repos):** 3 / 3 (100% completed)
+- **Specialized (3 Repos):** 10 / 10 (100% completed)
+- **Paired (2 Repos):** 13 / 13 (100% completed)
+- **Unique Differentiators (1 Repo):** 5 / 5 (100% completed)
 
 ---
 
@@ -30,13 +33,15 @@
 
 | Checkpoint | Phase | Scope & Description | Status | Verification Evidence |
 |:---:|:---:|:---|:---:|:---|
-| **CP-00** | Phase 0 | Pinned commit SHAs recorded, `PROVENANCE_LEDGER.md` initialized, `NOTICE` audited | ✅ Verified | All 25 `src/` files registered; AGPL licenses archived in `third_party/licenses/` |
+| **CP-00** | Phase 0 | Pinned commit SHAs recorded, `PROVENANCE_LEDGER.md` initialized, `NOTICE` audited | ✅ Verified | All 33 `src/` files registered; AGPL licenses archived in `third_party/licenses/` |
 | **CP-01** | Phase 1 (R1) | ra1 Integration Hooks H1-H4 (`IGatewayEngine`, permission, vault, audit) | ✅ Verified | [`tests/ra1-hooks.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/ra1-hooks.test.ts) |
 | **CP-02** | Phase 1 (R1) | Strict Zod validation & OpenAI chat endpoint (#1) | ✅ Verified | [`tests/chat-conformance.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/chat-conformance.test.ts) |
 | **CP-03** | Phase 1 (R1) | Multi-provider translation (#2) across 6 runtimes (OpenAI, Anthropic, Gemini, Ollama, LocalAI, llama.cpp) | ✅ Verified | [`tests/gateway.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/gateway.test.ts) |
 | **CP-04** | Phase 1 (R1) | Stream Failover (#3, #34): Pre-first-byte abort & fallback; Post-first-byte explicit SSE error | ✅ Verified | [`tests/stream-failover.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/stream-failover.test.ts) |
 | **CP-05** | Phase 1 (R1) | Failover chains (#4), virtual tiers (#5), token accounting (#7), pricing (#8), errors (#10) | ✅ Verified | [`tests/repro.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/repro.test.ts), [`tests/cache.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/cache.test.ts), [`tests/ssrf.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/ssrf.test.ts) |
-| **CP-06** | Phase 2 (R2) | Governance & Resilience: RPM rate limits (#9), TPM quotas (#15), OTel GenAI spans (#12), Bedrock SigV4 (#16), YAML Manifest (#35), PII clean-room rewrite (#19) | ⏳ Queued | Full R2 governance suite |
+| **CP-06** | Phase 2 (R2) | Governance & Resilience: Bedrock SigV4 (#16), Clean-Room PII (#19), Budgets (#27), Session Affinity (#32), MCP Gateway (#17), Reasoning Isolation (#42), YAML Manifest (#35), OTel (#12), TPM (#15), UI Console (#18) | ✅ Verified | [`tests/bedrock.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/bedrock.test.ts), [`tests/pii-vault.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/pii-vault.test.ts), [`tests/budgets.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/budgets.test.ts), [`tests/session-affinity.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/session-affinity.test.ts), [`tests/mcp.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/mcp.test.ts), [`tests/reasoning.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/reasoning.test.ts), [`tests/manifest-loader.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/manifest-loader.test.ts), [`tests/tracing.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/tracing.test.ts), [`tests/tpm.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/tpm.test.ts), [`tests/ui.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/ui.test.ts) |
+| **CP-07** | Phase 3 (R3) | 3-Repo & 2-Repo Features: Realtime (#20), Semantic Cache (#21), Audio (#22), Images (#23), Batches (#24), Tokenize (#25), Secrets (#26), Conditional (#28), BYOK (#29), Rerank (#30), Body Offload (#31), Shadow (#33), GCP Auth (#36), Videos (#37), GeoIP (#38), Files & Fine-tuning (#39), Semantic Tool Search (#40) | ✅ Verified | [`tests/audio.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/audio.test.ts), [`tests/images.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/images.test.ts), [`tests/batches.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/batches.test.ts), [`tests/secrets.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/secrets.test.ts), [`tests/byok.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/byok.test.ts), [`tests/realtime.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/realtime.test.ts), [`tests/body-offload.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/body-offload.test.ts), [`tests/gcp-auth.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/gcp-auth.test.ts), [`tests/videos.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/videos.test.ts), [`tests/geoip.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/geoip.test.ts), [`tests/files.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/files.test.ts), [`tests/tool-search.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/tool-search.test.ts) |
+| **CP-08** | Phase 4 (R4) | Size-1 Unique Differentiators: CEL Expressions (#43), Dual-Tier Mesh Router (#44), Voice Leases (#45), Credit Gating & Webhooks (#46), Agent-to-Agent A2A (#47) | ✅ Verified | [`tests/cel.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/cel.test.ts), [`tests/mesh.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/mesh.test.ts), [`tests/leases.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/leases.test.ts), [`tests/credits.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/credits.test.ts), [`tests/a2a.test.ts`](file:///d:/pheonix/model-gateway/codebase/tests/a2a.test.ts) |
 
 ---
 

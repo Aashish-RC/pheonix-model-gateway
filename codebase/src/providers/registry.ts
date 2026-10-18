@@ -4,6 +4,7 @@ import { AnthropicAdapter } from './anthropic.js';
 import { OllamaAdapter } from './ollama.js';
 import { GeminiProviderAdapter } from './gemini.js';
 import { OpenAICompatibleLocalAdapter } from './local.js';
+import { BedrockProviderAdapter } from './bedrock.js';
 
 export class ProviderRegistry {
   private static adapters: Map<string, ProviderAdapter> = new Map();
@@ -13,6 +14,7 @@ export class ProviderRegistry {
     this.register(new AnthropicAdapter());
     this.register(new OllamaAdapter());
     this.register(new GeminiProviderAdapter());
+    this.register(new BedrockProviderAdapter());
     this.register(new OpenAICompatibleLocalAdapter('localai', 'LocalAI Runtime'));
     this.register(new OpenAICompatibleLocalAdapter('llama.cpp', 'llama.cpp Server'));
   }
