@@ -1,4 +1,4 @@
-# Provenance Ledger
+﻿# Provenance Ledger
 
 This ledger records the true origin, licensing treatment, specification author, and implementation engineer for every file in `src/`. No file is omitted. All attributions are audited against actual repository sources.
 
@@ -7,7 +7,7 @@ This ledger records the true origin, licensing treatment, specification author, 
 > - Any file implementing a standard technique where the implementing session previously inspected an AGPL repo is explicitly flagged for counsel.
 > - Quarantined files (`quarantine/pii.ts`, `quarantine/rules.ts`, `quarantine/vault.ts`) are completely excluded from compilation and packaging.
 
-| File in `codebase/src/` | Feature / Subsystem | Primary Source & Path | Source Commit SHA | Treatment | Spec Author | Implementer | Date | License Notice Status |
+| File in `src/` | Feature / Subsystem | Primary Source & Path | Source Commit SHA | Treatment | Spec Author | Implementer | Date | License Notice Status |
 |:---|:---:|:---|:---:|:---|:---|:---|:---:|:---:|
 | `src/caching/cache.ts` | #14 Exact Response Cache | Own design (canonical JSON + SHA-256 + actor/tenant scope); reference: `portkey-ai-gateway/src/middlewares/cache/` | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Own implementation of a standard technique; the AGPL source was read by the same agent; flagged for counsel. | Antigravity Architecture | Antigravity Engineering | 2026-10-18 | Yes |
 | `src/core/engine.ts` | H1-H4 Gateway Engine | ra1 Architecture Contract (`IGatewayEngine`, failover, hooks) | N/A (ra1 Core) | Original ra1 Implementation | ra1 Architecture | ra1 Engineering | 2026-10-18 | Yes |
@@ -73,7 +73,7 @@ This ledger records the true origin, licensing treatment, specification author, 
 ---
 
 ### Quarantined Files Status
-- `quarantine/pii.ts` — Excluded from build. Replaced cleanly by `src/security/pii.ts`.
-- `quarantine/rules.ts` — Excluded from build.
-- `quarantine/vault.ts` — Excluded from build. Replaced cleanly by `src/security/vault.ts`.
+- `quarantine/pii.ts` â€” Excluded from build. Replaced cleanly by `src/security/pii.ts`.
+- `quarantine/rules.ts` â€” Excluded from build.
+- `quarantine/vault.ts` â€” Excluded from build. Replaced cleanly by `src/security/vault.ts`.
 *(Clean-room implementation completed in R2 strictly adhering to `docs/specs/reversible-pii-masking.md`)*

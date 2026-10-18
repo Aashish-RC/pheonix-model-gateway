@@ -10,6 +10,7 @@ export interface MCPToolDefinition {
   };
   handler: (args: Record<string, unknown>) => Promise<unknown> | unknown;
 }
+export type McpToolDefinition = MCPToolDefinition;
 
 export interface OpenAIToolFormat {
   type: 'function';
