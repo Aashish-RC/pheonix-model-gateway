@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'bun:test';
+import { describe, expect, it } from 'vitest';
 import { StreamFailoverManager } from '../src/core/stream-failover.js';
 import { OpenAIAdapter } from '../src/providers/openai.js';
 

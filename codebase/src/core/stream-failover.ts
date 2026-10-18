@@ -1,5 +1,9 @@
 import { ProviderAdapter, StreamTransformState } from '../types/provider.js';
 
+export interface GuardedStreamOptions {
+  preflightTimeoutMs?: number;
+}
+
 export class StreamFailoverManager {
   /**
    * Creates an SSE stream that safely handles pre-first-byte and post-first-byte failures.
@@ -9,7 +13,8 @@ export class StreamFailoverManager {
   public static async createGuardedStream(
     upstreamBody: ReadableStream<Uint8Array>,
     adapter: ProviderAdapter,
-    state: StreamTransformState
+    state: StreamTransformState,
+    options?: GuardedStreamOptions
   ): Promise<{ stream: ReadableStream<Uint8Array> }> {
     const reader = upstreamBody.getReader();
     // Catch unhandled rejection on reader.closed when upstream terminates
@@ -31,32 +36,49 @@ export class StreamFailoverManager {
       return encoder.encode(`event: error\ndata: ${payload}\n\n`);
     };
 
-    // Pre-flight check: read until we have at least one transformed chunk or stream completes
-    while (initialChunks.length === 0) {
-      const { done, value } = await reader.read();
-      if (done) {
-        if (residualBuffer.trim()) {
-          const transformed = adapter.transformStreamChunk(residualBuffer.trim(), state);
-          if (transformed) {
-            initialChunks.push(encoder.encode(transformed));
+    const preflightTimeout = options?.preflightTimeoutMs ?? 15000;
+
+    // Pre-flight check with timeout: read until we have at least one transformed chunk or stream completes
+    const readWithTimeout = async () => {
+      let timer: any;
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        timer = setTimeout(() => {
+          reject(new Error(`Upstream stream pre-first-byte timed out after ${preflightTimeout}ms`));
+        }, preflightTimeout);
+      });
+
+      try {
+        while (initialChunks.length === 0) {
+          const { done, value } = await Promise.race([reader.read(), timeoutPromise]);
+          if (done) {
+            if (residualBuffer.trim()) {
+              const transformed = adapter.transformStreamChunk(residualBuffer.trim(), state);
+              if (transformed) {
+                initialChunks.push(encoder.encode(transformed));
+              }
+            }
+            break;
+          }
+
+          residualBuffer += decoder.decode(value, { stream: true });
+          const parts = residualBuffer.split('\n\n');
+          residualBuffer = parts.pop() || '';
+
+          for (const block of parts) {
+            const trimmed = block.trim();
+            if (!trimmed) continue;
+            const transformed = adapter.transformStreamChunk(trimmed, state);
+            if (transformed) {
+              initialChunks.push(encoder.encode(transformed));
+            }
           }
         }
-        break;
+      } finally {
+        clearTimeout(timer);
       }
+    };
 
-      residualBuffer += decoder.decode(value, { stream: true });
-      const parts = residualBuffer.split('\n\n');
-      residualBuffer = parts.pop() || '';
-
-      for (const block of parts) {
-        const trimmed = block.trim();
-        if (!trimmed) continue;
-        const transformed = adapter.transformStreamChunk(trimmed, state);
-        if (transformed) {
-          initialChunks.push(encoder.encode(transformed));
-        }
-      }
-    }
+    await readWithTimeout();
 
     // Now construct the response stream. Because initialChunks has data, firstByte has been emitted!
     let firstByteEmitted = initialChunks.length > 0;

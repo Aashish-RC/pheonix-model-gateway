@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'bun:test';
+import { describe, expect, it } from 'vitest';
 import { createGatewayApp } from '../src/core/server.js';
 import { TokenUsageAccounting } from '../src/telemetry/usage.js';
 import { ProviderRegistry } from '../src/providers/registry.js';

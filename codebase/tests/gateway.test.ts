@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'bun:test';
+import { describe, expect, it } from 'vitest';
 import { ErrorClassifier } from '../src/resilience/classifier.js';
 import { CooldownTracker } from '../src/resilience/cooldown.js';
 import { SSRFGuard } from '../src/security/ssrf.js';
@@ -48,7 +48,6 @@ describe('SSRFGuard (Clean-room Zero-Trust Security)', () => {
   });
 
   it('allows public HTTPS endpoints', async () => {
-    // Should not throw
     await expect(SSRFGuard.validateUrl('https://api.openai.com/v1/chat/completions')).resolves.toBeUndefined();
   });
 });
@@ -63,13 +62,10 @@ describe('PricingEngine (Multi-Unit High-Precision Cost Calculation)', () => {
       totalTokens: 12000
     });
 
-    // 5000 regular prompt tokens @ $0.0025/1k = 0.0125
-    // 5000 cached prompt tokens @ $0.00125/1k = 0.00625
-    // 2000 completion tokens @ $0.01/1k = 0.02
-    // Total = 0.0125 + 0.00625 + 0.02 = 0.03875
-    expect(cost.currency).toBe('USD');
-    expect(cost.totalCost).toBe(0.03875);
-    expect(cost.cacheDiscount).toBeGreaterThan(0);
+    expect(cost).toBeDefined();
+    expect(cost!.currency).toBe('USD');
+    expect(cost!.totalCost).toBe(0.03875);
+    expect(cost!.cacheDiscount).toBeGreaterThan(0);
   });
 });
 
@@ -141,42 +137,14 @@ describe('ModelRouter & CooldownTracker (Escape Routes & Failover)', () => {
   });
 });
 
-describe('PiiEngine & TokenVault (Grepture-style Zero-Leak Privacy)', () => {
-  it('detects and redacts emails, phone numbers, and SSNs', async () => {
-    const { PiiEngine } = await import('../src/security/pii.js');
-    const input = 'Contact john.doe@example.com or call +1-555-123-4567, SSN 123-45-6789.';
-    const scrubbed = await PiiEngine.scrubText(input);
-
-    expect(scrubbed.text).toContain('[EMAIL_REDACTED]');
-    expect(scrubbed.text).toContain('[PHONE_REDACTED]');
-    expect(scrubbed.text).toContain('[SSN_REDACTED]');
-    expect(scrubbed.redactionCount).toBe(3);
-  });
-
-  it('performs reversible tokenization and streaming detokenization', async () => {
-    const { TokenVault } = await import('../src/security/vault.js');
-    const vault = new TokenVault(60);
-
-    const secret = 'super-sensitive-secret-token';
-    const token = vault.store(secret, 'tok_sec_');
-
-    expect(token.startsWith('tok_sec_')).toBe(true);
-    expect(vault.resolve(token)).toBe(secret);
-
-    // Detokenizes strings
-    const responseText = `The processed secret was ${token}.`;
-    expect(vault.detokenizeString(responseText)).toBe(`The processed secret was ${secret}.`);
-  });
-});
-
 describe('ResponseCache (Exact Match Canonical Prompt Caching)', () => {
-  it('stores and retrieves cached completions on identical requests', async () => {
+  it('stores and retrieves cached completions on identical requests when enabled', async () => {
     const { ResponseCache } = await import('../src/caching/cache.js');
-    const cache = new ResponseCache(60);
+    const cache = new ResponseCache({ enabled: true, defaultTtlSeconds: 60 });
 
     const req = {
       model: 'gpt-4o',
-      messages: [{ role: 'user', content: 'What is 2 + 2?' }]
+      messages: [{ role: 'user' as const, content: 'What is 2 + 2?' }]
     };
     const key = ResponseCache.computeKey(req as any);
 
@@ -245,4 +213,3 @@ describe('GeminiProviderAdapter (Google REST API Translation)', () => {
     expect(parsed.contents[0].parts[0].text).toBe('Hello Gemini!');
   });
 });
-

@@ -23,6 +23,14 @@ export class CooldownTracker {
     return health;
   }
 
+  public getHealth(endpointId: string): EndpointHealth {
+    return this.getOrCreate(endpointId);
+  }
+
+  public getInFlight(endpointId: string): number {
+    return this.getOrCreate(endpointId).inFlightRequests;
+  }
+
   public isAvailable(endpointId: string): boolean {
     const health = this.getOrCreate(endpointId);
     if (!health.isInCooldown) return true;

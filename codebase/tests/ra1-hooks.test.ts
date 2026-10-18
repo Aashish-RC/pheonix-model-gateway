@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'bun:test';
+import { describe, expect, it } from 'vitest';
 import { GatewayEngine } from '../src/core/engine.js';
 import { ModelRouter } from '../src/routing/router.js';
 import { CooldownTracker } from '../src/resilience/cooldown.js';
-import { ProviderRegistry } from '../providers/registry.js';
+import { ProviderRegistry } from '../src/providers/registry.js';
 import { AuditRecord, PermissionDecision, ScopedCredential } from '../src/types/ra1.js';
 
 describe('ra1 Integration Hooks (H1 to H4)', () => {

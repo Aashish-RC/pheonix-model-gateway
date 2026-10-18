@@ -7,7 +7,19 @@ export class ErrorClassifier {
       : JSON.stringify(responseBody || '');
     const lowerBody = bodyStr.toLowerCase();
 
-    // 1. Rate Limiting (429)
+    // 1. Timeout (408 or abort timeout)
+    if (status === 408 || lowerBody.includes('timeout') || lowerBody.includes('timed out') || lowerBody.includes('timeoutexception')) {
+      return {
+        category: 'TIMEOUT',
+        isRetryable: true,
+        statusCode: 408,
+        message: 'Upstream provider request timed out',
+        retryAfterSeconds: 2,
+        originalError: responseBody
+      };
+    }
+
+    // 2. Rate Limiting (429)
     if (status === 429 || lowerBody.includes('rate_limit') || lowerBody.includes('quota_exceeded')) {
       const retryAfter = this.parseRetryAfter(headers, bodyStr);
       return {
@@ -20,7 +32,7 @@ export class ErrorClassifier {
       };
     }
 
-    // 2. Overloaded / Server Down (502, 503, 504, 529)
+    // 3. Overloaded / Server Down (502, 503, 504, 529)
     if (status === 502 || status === 503 || status === 504 || status === 529 || lowerBody.includes('overloaded')) {
       return {
         category: 'OVERLOADED',
@@ -32,7 +44,7 @@ export class ErrorClassifier {
       };
     }
 
-    // 3. Context Length Exceeded (Non-retryable 400)
+    // 4. Context Length Exceeded (Non-retryable 400)
     if (
       status === 400 && 
       (lowerBody.includes('context_length') || 
@@ -49,17 +61,6 @@ export class ErrorClassifier {
       };
     }
 
-    // 4. Invalid Request / Bad Parameter (Non-retryable 400)
-    if (status === 400) {
-      return {
-        category: 'INVALID_REQUEST',
-        isRetryable: false,
-        statusCode: 400,
-        message: 'Invalid request parameters sent to upstream provider',
-        originalError: responseBody
-      };
-    }
-
     // 5. Auth / Permission Failure (401, 403)
     if (status === 401 || status === 403 || lowerBody.includes('invalid_api_key') || lowerBody.includes('unauthorized')) {
       return {
@@ -71,7 +72,18 @@ export class ErrorClassifier {
       };
     }
 
-    // 6. Generic 500 Server Error (Retryable)
+    // 6. Invalid Request / Bad Parameter (Non-retryable 400)
+    if (status === 400) {
+      return {
+        category: 'INVALID_REQUEST',
+        isRetryable: false,
+        statusCode: 400,
+        message: 'Invalid request parameters sent to upstream provider',
+        originalError: responseBody
+      };
+    }
+
+    // 7. Generic 500 Server Error (Retryable)
     if (status >= 500) {
       return {
         category: 'SERVER_ERROR',
@@ -85,11 +97,19 @@ export class ErrorClassifier {
 
     return {
       category: 'UNKNOWN',
-      isRetryable: false,
+      isRetryable: status >= 500,
       statusCode: status,
       message: 'Unclassified upstream error',
       originalError: responseBody
     };
+  }
+
+  /**
+   * Identifies client-side errors (4xx other than 429 and 408) that should not
+   * count against endpoint health or cooldown, and must not trigger failover.
+   */
+  public static isClientNonRetryable(status: number): boolean {
+    return status >= 400 && status < 500 && status !== 429 && status !== 408;
   }
 
   public static toOpenAIError(classified: ClassifiedError): {

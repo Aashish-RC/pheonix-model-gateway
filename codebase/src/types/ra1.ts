@@ -6,6 +6,7 @@ export interface RequestContext {
   traceId: string;
   actor: string;
   clientIp?: string;
+  tenantId?: string;
   metadata?: Record<string, unknown>;
 }
 
@@ -44,11 +45,13 @@ export interface AuditRecord {
   provider: string;
   targetId: string;
   tokens: MultiUnitUsage & { estimated?: boolean };
-  cost: CalculatedCost;
+  cost: CalculatedCost | null;
   latencyMs: number;
   outcome: 'success' | 'error' | 'denied' | 'fallback';
   statusCode: number;
   errorMessage?: string;
+  warning?: string;
+  cached?: boolean;
   metadata?: Record<string, unknown>;
 }
 

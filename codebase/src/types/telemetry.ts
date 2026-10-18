@@ -13,6 +13,8 @@ export interface ModelPricingTier {
   reasoningPer1k?: number;
   cacheReadPer1k?: number;
   cacheWritePer1k?: number;
+  sourceUrl?: string;
+  sourceDate?: string;
 }
 
 export interface CalculatedCost {
