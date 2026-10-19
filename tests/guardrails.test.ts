@@ -67,7 +67,7 @@ describe('Feature 19: Modular Guardrail Plugin Pipeline Engine', () => {
     expect(preResult.request.messages[0].content).not.toContain('admin@corp.net');
     expect(preResult.request.messages[0].content).toContain('[TOKEN_EMAIL_');
 
-    const token = preResult.request.messages[0].content.match(/\[TOKEN_EMAIL_[a-f0-9]+\]/)![0];
+    const token = preResult.request.messages[0].content!.match(/\[TOKEN_EMAIL_[a-f0-9]+\]/)![0];
 
     // Downstream response containing the token
     const mockResponse: ChatCompletionResponse = {

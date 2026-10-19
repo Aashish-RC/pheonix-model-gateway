@@ -131,7 +131,7 @@ describe('ra1 Integration Hooks (H1 to H4)', () => {
       expect(audit.provider).toBe('openai');
       expect(audit.outcome).toBe('success');
       expect(audit.tokens.totalTokens).toBe(20);
-      expect(audit.cost.totalCost).toBeGreaterThan(0);
+      expect(audit.cost!.totalCost).toBeGreaterThan(0);
       // Raw secret key is never leaked in the audit record!
       expect(JSON.stringify(audit)).not.toContain('vault-scoped-credential-xyz');
     } finally {
