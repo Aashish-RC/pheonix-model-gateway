@@ -22,17 +22,17 @@ Status is tracked per-feature derived directly from `PROVENANCE_LEDGER.md`. Clea
 | #6 Local Runtimes (Ollama, llama.cpp, LocalAI) | built | Own implementation | Gateway Core | active | no |
 | #7 Token Accounting & Estimation | built | Adapted (MIT) | Gateway Core | active | no |
 | #8 Token Pricing & Cost Engine | built | Adapted (Apache-2.0) | Gateway Core | active | no |
-| #9 Request Rate Limiter (Sliding Window) | built | Unverified (flagged for counsel) | Gateway Core | active | no |
+| #9 Request Rate Limiter (Sliding Window) | built | Clean-room (implementer saw only the spec) | Gateway Core | active | no |
 | #10 Normalized Error Envelope & Mapping | built | Adapted (Apache-2.0) | Gateway Core | active | no |
 | #11 Prompt Cache Affinity & Routing Strategies | built | Adapted (Apache-2.0) | Gateway Core | active | no |
 | #12 OpenTelemetry GenAI Distributed Spans | built | Adapted (MIT) | Gateway Core | active | no |
 | #13 Prometheus Metrics (`/metrics`) & Health Probes | built | Own implementation | Gateway Core | active | no |
-| #14 Exact Response Cache | built | Unverified (flagged for counsel) | Gateway Core | active | no |
+| #14 Exact Response Cache | built | Clean-room (implementer saw only the spec) | Gateway Core | active | no |
 | #15 Sliding-Window TPM Limiter | built | Adapted (MIT) | Gateway Core | active | no |
 | #16 AWS Bedrock SigV4 Adapter | built | Adapted (Apache-2.0) | Gateway Core | active | no |
 | #17 MCP Tool Gateway & Agent Loop | built | Own implementation from public protocol spec | Layer 1 tool registry | temporarily, flag off (`FEATURE_MCP`) | no |
 | #18 Embedded Control Console UI (`/console`) | built | Own implementation | app surface | temporarily, flag off (`FEATURE_CONSOLE_UI`) | no |
-| #19 Reversible PII Masking Engine & Vault | built | Unverified (flagged for counsel) | Gateway Core | active | no |
+| #19 Reversible PII Masking Engine & Vault | built | Clean-room (implementer saw only the spec) | Gateway Core | active | no |
 | #20 Realtime Audio/WebSocket API (`/v1/realtime`) | built | Own implementation from public protocol spec | Gateway Core | active | no |
 | #21 Semantic Vector Caching | built | Adapted (Apache-2.0) | Gateway Core | active | no |
 | #22 Audio Speech (TTS) & Transcription (STT) | built | Adapted (MIT) | Gateway Core | active | no |
@@ -61,11 +61,11 @@ Status is tracked per-feature derived directly from `PROVENANCE_LEDGER.md`. Clea
 | #45 Voice Turn Duration Metering & Preflight Leases | built | Clean-room (implementer saw only the spec) | Layer 0 Metering | temporarily, flag off (`FEATURE_VOICE_LEASES`) | no |
 | #46 Prepaid Credit Gating & Automated Webhooks | built | Clean-room (implementer saw only the spec) | Layer 0 Metering | temporarily, flag off (`FEATURE_PREPAID_CREDITS`) | no |
 | #47 Agent-to-Agent (A2A) Routing Protocol | built | Own implementation from public protocol spec | Layer 2 orchestration | temporarily, flag off (`FEATURE_A2A`) | no |
-| SSRF Guard (Zero-Trust IP & DNS Validation) | built | Unverified (flagged for counsel) | Gateway Core | active | no |
+| SSRF Guard (Zero-Trust IP & DNS Validation) | built | Clean-room (implementer saw only the spec) | Gateway Core | active | no |
 | Spec: GeoIP Country & IP Blocking | clean-room built | Clean-room spec (`docs/specs/geoip-ip-blocking.md`) | Clean-Room Spec | temporarily, flag off (`FEATURE_GEOIP`) | no |
 | Spec: Voice-Duration Metering & Leases | clean-room built | Clean-room spec (`docs/specs/voice-duration-metering.md`) | Clean-Room Spec | temporarily, flag off (`FEATURE_VOICE_LEASES`) | no |
 | Spec: Prepaid Credit Gating & Webhooks | clean-room built | Clean-room spec (`docs/specs/prepaid-credit-gating.md`) | Clean-Room Spec | temporarily, flag off (`FEATURE_PREPAID_CREDITS`) | no |
-| Spec: Reversible PII Masking | spec only | Clean-room spec (`docs/specs/reversible-pii-masking.md`) | Clean-Room Spec | spec only | no |
+| Spec: Reversible PII Masking | clean-room built | Clean-room spec (`docs/specs/reversible-pii-masking.md`) | Clean-Room Spec | active | no |
 
 ---
 
