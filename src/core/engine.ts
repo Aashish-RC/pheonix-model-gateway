@@ -318,7 +318,7 @@ export class GatewayEngine implements IGatewayEngine {
           statusCode: 200,
           usage,
           cost,
-          warning: cost === null ? 'Unknown model pricing tier; cost calculation skipped' : undefined
+          warning: cost === null ? `Unknown model pricing for '${validated.model}'; cost cannot be computed` : undefined
         });
 
         return normalized;
@@ -585,7 +585,7 @@ export class GatewayEngine implements IGatewayEngine {
           statusCode: 200,
           usage: estimatedUsage,
           cost: estimatedCost,
-          warning: estimatedCost === null ? 'Unknown model pricing tier; cost calculation skipped' : undefined
+          warning: estimatedCost === null ? `Unknown model pricing for '${validated.model}'; cost cannot be computed` : undefined
         });
 
         return stream;
@@ -657,6 +657,9 @@ export class GatewayEngine implements IGatewayEngine {
     };
 
     const cost = params.cost !== undefined ? params.cost : PricingEngine.calculateCost(params.model, defaultUsage);
+    const isUnknownModelCost = cost === null;
+    const costEstimated = isUnknownModelCost ? true : (params.usage?.estimated ?? false);
+    const warning = params.warning || (isUnknownModelCost ? `Unknown model pricing for '${params.model}'; cost cannot be computed` : undefined);
 
     try {
       await this.auditHook({
@@ -669,11 +672,12 @@ export class GatewayEngine implements IGatewayEngine {
         targetId: params.targetId,
         tokens: defaultUsage,
         cost,
+        costEstimated,
         latencyMs: params.latencyMs,
         outcome: params.outcome,
         statusCode: params.statusCode,
         errorMessage: params.errorMessage,
-        warning: params.warning,
+        warning,
         cached: params.cached,
         metadata: { ...(params.ctx.metadata || {}), ...(params.metadata || {}) }
       });

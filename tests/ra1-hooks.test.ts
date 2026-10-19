@@ -138,4 +138,109 @@ describe('ra1 Integration Hooks (H1 to H4)', () => {
       globalThis.fetch = originalFetch;
     }
   });
+
+  it('H2 Identity Hook: spoofed x-actor-id or authorization headers do not change actor (defaults to anonymous)', async () => {
+    let capturedActor = '';
+    const { app, router } = await import('../src/core/server.js').then(m => m.createGatewayApp({
+      auditHook: (record) => {
+        capturedActor = record.actor;
+      }
+    }));
+
+    router.registerRoute({
+      alias: 'gpt-4o',
+      targets: [
+        {
+          id: 'mock-target',
+          provider: 'openai',
+          model: 'gpt-4o',
+          config: { id: 'cfg', name: 'OpenAI', baseUrl: 'https://api.openai.com/v1', apiKey: 'test-key' }
+        }
+      ]
+    });
+
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = (async () => {
+      return new Response(JSON.stringify({
+        id: 'chatcmpl-mock',
+        object: 'chat.completion',
+        created: 123456,
+        model: 'gpt-4o',
+        choices: [{ index: 0, message: { role: 'assistant', content: 'OK' }, finish_reason: 'stop' }],
+        usage: { prompt_tokens: 10, completion_tokens: 2, total_tokens: 12 }
+      }), { status: 200, headers: { 'content-type': 'application/json' } });
+    }) as any;
+
+    try {
+      const res = await app.request('/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-actor-id': 'spoofed-admin-actor',
+          'Authorization': 'Bearer spoofed-token'
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [{ role: 'user', content: 'test' }]
+        })
+      });
+
+      expect(res.status).toBe(200);
+      expect(capturedActor).toBe('anonymous');
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  it('H2 Identity Hook: accepts verified actor from identity hook', async () => {
+    let capturedActor = '';
+    const { app, router } = await import('../src/core/server.js').then(m => m.createGatewayApp({
+      identityHook: async () => 'verified-user-123',
+      auditHook: (record) => {
+        capturedActor = record.actor;
+      }
+    }));
+
+    router.registerRoute({
+      alias: 'gpt-4o',
+      targets: [
+        {
+          id: 'mock-target',
+          provider: 'openai',
+          model: 'gpt-4o',
+          config: { id: 'cfg', name: 'OpenAI', baseUrl: 'https://api.openai.com/v1', apiKey: 'test-key' }
+        }
+      ]
+    });
+
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = (async () => {
+      return new Response(JSON.stringify({
+        id: 'chatcmpl-mock',
+        object: 'chat.completion',
+        created: 123456,
+        model: 'gpt-4o',
+        choices: [{ index: 0, message: { role: 'assistant', content: 'OK' }, finish_reason: 'stop' }],
+        usage: { prompt_tokens: 10, completion_tokens: 2, total_tokens: 12 }
+      }), { status: 200, headers: { 'content-type': 'application/json' } });
+    }) as any;
+
+    try {
+      const res = await app.request('/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [{ role: 'user', content: 'test' }]
+        })
+      });
+
+      expect(res.status).toBe(200);
+      expect(capturedActor).toBe('verified-user-123');
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
 });

@@ -4,6 +4,7 @@ import { CooldownTracker } from '../src/resilience/cooldown.js';
 import { SSRFGuard } from '../src/security/ssrf.js';
 import { PricingEngine } from '../src/telemetry/pricing.js';
 import { ModelRouter } from '../src/routing/router.js';
+import { GatewayEngine } from '../src/core/engine.js';
 
 describe('ErrorClassifier (Bifrost-style Granular Classification)', () => {
   it('correctly classifies 429 rate limit errors as retryable with backoff', () => {
@@ -66,6 +67,66 @@ describe('PricingEngine (Multi-Unit High-Precision Cost Calculation)', () => {
     expect(cost!.currency).toBe('USD');
     expect(cost!.totalCost).toBe(0.03875);
     expect(cost!.cacheDiscount).toBeGreaterThan(0);
+  });
+
+  it('returns null for unknown model and flags costEstimated with warning in audit record', async () => {
+    const cost = PricingEngine.calculateCost('unknown-model-xyz', {
+      promptTokens: 100,
+      completionTokens: 50,
+      reasoningTokens: 0,
+      cachedPromptTokens: 0,
+      totalTokens: 150
+    });
+    expect(cost).toBeNull();
+
+    let capturedAudit: any = null;
+    const tracker = new CooldownTracker();
+    const router = new ModelRouter(tracker);
+    router.registerRoute({
+      alias: 'unknown-model-xyz',
+      targets: [
+        {
+          id: 'mock-target',
+          provider: 'openai',
+          model: 'unknown-model-xyz',
+          config: { id: 'cfg', name: 'Mock', baseUrl: 'https://api.openai.com/v1', apiKey: 'key' }
+        }
+      ]
+    });
+
+    const engine = new GatewayEngine({
+      router,
+      cooldownTracker: tracker,
+      defaultAuditHook: (record) => {
+        capturedAudit = record;
+      }
+    });
+
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = (async () => {
+      return new Response(JSON.stringify({
+        id: 'chatcmpl-mock',
+        object: 'chat.completion',
+        created: 123456,
+        model: 'unknown-model-xyz',
+        choices: [{ index: 0, message: { role: 'assistant', content: 'hello' }, finish_reason: 'stop' }],
+        usage: { prompt_tokens: 10, completion_tokens: 5, total_tokens: 15 }
+      }), { status: 200, headers: { 'content-type': 'application/json' } });
+    }) as any;
+
+    try {
+      await engine.chatCompletion({
+        model: 'unknown-model-xyz',
+        messages: [{ role: 'user', content: 'hi' }]
+      });
+
+      expect(capturedAudit).toBeDefined();
+      expect(capturedAudit.cost).toBeNull();
+      expect(capturedAudit.costEstimated).toBe(true);
+      expect(capturedAudit.warning).toContain('unknown-model-xyz');
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
   });
 });
 

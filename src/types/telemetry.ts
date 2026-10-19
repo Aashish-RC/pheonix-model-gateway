@@ -10,10 +10,12 @@ export interface ModelPricingTier {
   model: string;
   inputPer1k: number;
   outputPer1k: number;
+  currency: string;
+  sourceUrl: string;
+  retrievedDate: string;
   reasoningPer1k?: number;
   cacheReadPer1k?: number;
   cacheWritePer1k?: number;
-  sourceUrl?: string;
   sourceDate?: string;
 }
 

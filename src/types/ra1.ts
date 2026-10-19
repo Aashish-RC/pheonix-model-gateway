@@ -10,11 +10,15 @@ export interface RequestContext {
   metadata?: Record<string, unknown>;
 }
 
-// H2: Permission hook
+// H2: Permission & Identity hook
 export type PermissionDecision =
   | { action: 'allow' }
   | { action: 'deny'; reason: string; statusCode?: number }
   | { action: 'ask-human'; reason: string; challengeId: string };
+
+export type IdentityHook = (
+  c: any
+) => Promise<string | null | undefined> | (string | null | undefined);
 
 export type PermissionHook = (
   req: ChatCompletionRequest,
@@ -46,6 +50,7 @@ export interface AuditRecord {
   targetId: string;
   tokens: MultiUnitUsage & { estimated?: boolean };
   cost: CalculatedCost | null;
+  costEstimated?: boolean;
   latencyMs: number;
   outcome: 'success' | 'error' | 'denied' | 'fallback';
   statusCode: number;

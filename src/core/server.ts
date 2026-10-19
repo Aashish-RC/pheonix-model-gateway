@@ -7,7 +7,7 @@ import { CooldownTracker } from '../resilience/cooldown.js';
 import { SlidingWindowRateLimiter } from '../resilience/ratelimit.js';
 import { ResponseCache } from '../caching/cache.js';
 import { GatewayEngine } from './engine.js';
-import { PermissionHook, KeyLookupHook, AuditHook, RequestContext } from '../types/ra1.js';
+import { PermissionHook, IdentityHook, KeyLookupHook, AuditHook, RequestContext } from '../types/ra1.js';
 import { renderConsoleHtml } from '../ui/console.js';
 import { TokenCounter } from '../telemetry/tokens.js';
 import { RerankEngine } from '../rerank/router.js';
@@ -22,6 +22,7 @@ import { MetricsCollector } from '../telemetry/metrics.js';
 
 export interface CreateGatewayAppOptions {
   permissionHook?: PermissionHook;
+  identityHook?: IdentityHook;
   keyLookupHook?: KeyLookupHook;
   auditHook?: AuditHook;
   cache?: ResponseCache;
@@ -366,7 +367,15 @@ export function createGatewayApp(options?: CreateGatewayAppOptions): {
   app.post('/v1/chat/completions', async (c) => {
     const requestId = c.req.header('x-request-id') || `req-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
     const traceId = c.req.header('x-trace-id') || `trace-${Math.random().toString(36).substring(2, 12)}`;
-    const actor = c.req.header('x-actor-id') || c.req.header('authorization') || 'anonymous-client';
+    // Actor identity comes ONLY from the ra1 identity hook (H2 context).
+    // Caller-supplied headers (x-actor-id, authorization) are untrusted and ignored. Without verified identity, default to 'anonymous'.
+    let actor = 'anonymous';
+    if (options?.identityHook) {
+      const verified = await options.identityHook(c);
+      if (verified) {
+        actor = verified;
+      }
+    }
     const tenantId = c.req.header('x-tenant-id') || undefined;
 
     const ctx: RequestContext = {

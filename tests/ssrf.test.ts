@@ -38,4 +38,21 @@ describe('W6: SSRF Hardening & Range Validation', () => {
   it('allows verified public addresses', async () => {
     await expect(SSRFGuard.validateUrl('https://api.openai.com/v1/chat/completions')).resolves.toBeUndefined();
   });
+
+  it('supports injectable resolver via static setter', async () => {
+    const customResolver = async (host: string) => [{ address: '10.0.0.99', family: 4 }];
+    (SSRFGuard as any).setResolver(customResolver);
+    try {
+      await expect(SSRFGuard.validateUrl('https://example-corp.com/api'))
+        .rejects.toThrow('is a private or reserved network address');
+    } finally {
+      (SSRFGuard as any).resetResolver?.();
+    }
+  });
+
+  it('supports injectable resolver via constructor instance', async () => {
+    const customResolver = async (host: string) => [{ address: '93.184.216.34', family: 4 }];
+    const guard = new (SSRFGuard as any)(customResolver);
+    await expect(guard.validateUrl('https://example-corp.com/api')).resolves.toBeUndefined();
+  });
 });

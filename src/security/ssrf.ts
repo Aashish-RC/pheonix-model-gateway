@@ -1,6 +1,36 @@
 import { URL } from 'node:url';
 import dns from 'node:dns/promises';
 
+export interface DnsLookupRecord {
+  address: string;
+  family?: number;
+}
+
+export type DnsResolver = (hostname: string) => Promise<DnsLookupRecord[]>;
+
+export const defaultDnsResolver: DnsResolver = async (hostname: string) => {
+  const records = await dns.lookup(hostname, { all: true });
+  return records.map((r) => ({ address: r.address, family: r.family }));
+};
+
+export function createFakeDnsResolver(customRecords?: Record<string, string[]>): DnsResolver {
+  return async (hostname: string) => {
+    if (customRecords && customRecords[hostname]) {
+      return customRecords[hostname].map((ip) => ({ address: ip, family: 4 }));
+    }
+    if (hostname.endsWith('.invalid') || hostname.includes('does-not-exist')) {
+      throw new Error(`getaddrinfo ENOTFOUND ${hostname}`);
+    }
+    if (/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(hostname) || hostname.includes(':')) {
+      return [{ address: hostname, family: hostname.includes(':') ? 6 : 4 }];
+    }
+    if (hostname === 'localhost') {
+      return [{ address: '127.0.0.1', family: 4 }];
+    }
+    return [{ address: '93.184.216.34', family: 4 }];
+  };
+}
+
 /**
  * SSRF Guard (Zero-Trust Outbound Address Validator)
  * 
@@ -14,7 +44,36 @@ import dns from 'node:dns/promises';
  * configure an egress firewall or dedicated forward proxy.
  */
 export class SSRFGuard {
-  public static async validateUrl(urlString: string, allowLocalhost: boolean = false): Promise<void> {
+  private static globalResolver: DnsResolver = defaultDnsResolver;
+  private instanceResolver?: DnsResolver;
+
+  constructor(resolver?: DnsResolver) {
+    if (resolver) {
+      this.instanceResolver = resolver;
+    }
+  }
+
+  public static setResolver(resolver: DnsResolver): void {
+    this.globalResolver = resolver;
+  }
+
+  public static resetResolver(): void {
+    this.globalResolver = defaultDnsResolver;
+  }
+
+  public static getResolver(): DnsResolver {
+    return this.globalResolver;
+  }
+
+  public async validateUrl(urlString: string, allowLocalhost: boolean = false): Promise<void> {
+    return SSRFGuard.validateUrl(urlString, allowLocalhost, this.instanceResolver);
+  }
+
+  public static async validateUrl(
+    urlString: string,
+    allowLocalhost: boolean = false,
+    customResolver?: DnsResolver
+  ): Promise<void> {
     let parsed: URL;
     try {
       parsed = new URL(urlString);
@@ -35,7 +94,8 @@ export class SSRFGuard {
 
     // Resolve DNS to verify destination IP (Fail-Closed)
     try {
-      const records = await dns.lookup(hostname, { all: true });
+      const resolver = customResolver || this.globalResolver || defaultDnsResolver;
+      const records = await resolver(hostname);
       if (!records || records.length === 0) {
         throw new Error(`SSRF Guard: DNS resolution returned no addresses for "${hostname}" (fail-closed)`);
       }
