@@ -51,15 +51,15 @@ Status is tracked per-feature derived directly from `PROVENANCE_LEDGER.md`. Clea
 | #35 Declarative Config Manifest Loader | built | Adapted (Apache-2.0) | no |
 | #36 GCP OAuth2 Token Refresher | built | Adapted (Apache-2.0) | no |
 | #37 Video Generation API (`/v1/videos`) | built | Adapted (MIT) | no |
-| #38 GeoIP Country & Abuse IP Blacklisting | built | Unverified (flagged for counsel) | no |
+| #38 GeoIP Country & Abuse IP Blacklisting | quarantined, spec only | Quarantined | no |
 | #39 File Management & Fine-Tuning API | built | Adapted (MIT) | no |
 | #40 Dynamic Semantic Tool Search | built | Adapted (Apache-2.0) | no |
 | #41 Modular Guardrails Pipeline | built | Adapted (MIT) | no |
 | #42 Reasoning Content Isolation | built | Adapted (Apache-2.0) | no |
 | #43 Common Expression Language (CEL) Engine | built | Adapted (Apache-2.0) | no |
 | #44 Dual-Tier Mesh Architecture | spec only (`docs/deployment-notes.md`) | Replaced with deployment note | no |
-| #45 Voice Turn Duration Metering & Preflight Leases | built | Unverified (flagged for counsel) | no |
-| #46 Prepaid Credit Gating & Automated Webhooks | built | Unverified (flagged for counsel) | no |
+| #45 Voice Turn Duration Metering & Preflight Leases | quarantined, spec only | Quarantined | no |
+| #46 Prepaid Credit Gating & Automated Webhooks | quarantined, spec only | Quarantined | no |
 | #47 Agent-to-Agent (A2A) Routing Protocol | built | Adapted (MIT) | no |
 | SSRF Guard (Zero-Trust IP & DNS Validation) | built | Unverified (flagged for counsel) | no |
 | Spec: GeoIP Country & IP Blocking | spec only | Clean-room spec (`docs/specs/geoip-ip-blocking.md`) | no |

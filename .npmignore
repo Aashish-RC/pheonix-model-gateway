@@ -1,2 +1,6 @@
-tests/
-*.log
+quarantine
+tests
+docs
+.dockerignore
+docker-compose.yml
+Dockerfile

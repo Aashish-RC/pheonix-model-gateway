@@ -51,15 +51,15 @@
 | #35 Declarative Config Manifest Loader | built | Adapted (Apache-2.0) | no | `tests/manifest-loader.test.ts` |
 | #36 GCP OAuth2 Token Refresher | built | Adapted (Apache-2.0) | no | `tests/gcp-auth.test.ts` |
 | #37 Video Generation API | built | Adapted (MIT) | no | `tests/videos.test.ts` |
-| #38 GeoIP Country & Abuse IP Blacklisting | built | Unverified (flagged for counsel) | no | `tests/geoip.test.ts` |
+| #38 GeoIP Country & Abuse IP Blacklisting | quarantined, spec only | Quarantined | no | Quarantined in `quarantine/geoip.ts` |
 | #39 File Management & Fine-Tuning API | built | Adapted (MIT) | no | `tests/files.test.ts` |
 | #40 Dynamic Semantic Tool Search | built | Adapted (Apache-2.0) | no | `tests/tool-search.test.ts` |
 | #41 Modular Guardrails Pipeline | built | Adapted (MIT) | no | `tests/guardrails.test.ts` |
 | #42 Reasoning Content Isolation | built | Adapted (Apache-2.0) | no | `tests/reasoning.test.ts` |
 | #43 Common Expression Language (CEL) Engine | built | Adapted (Apache-2.0) | no | `tests/cel.test.ts` |
 | #44 Dual-Tier Mesh Architecture | spec only (`docs/deployment-notes.md`) | Replaced with deployment note | no | `docs/deployment-notes.md` |
-| #45 Voice Turn Duration Metering & Preflight Leases | built | Unverified (flagged for counsel) | no | `tests/leases.test.ts` |
-| #46 Prepaid Credit Gating & Automated Webhooks | built | Unverified (flagged for counsel) | no | `tests/credits.test.ts` |
+| #45 Voice Turn Duration Metering & Preflight Leases | quarantined, spec only | Quarantined | no | Quarantined in `quarantine/leases.ts` |
+| #46 Prepaid Credit Gating & Automated Webhooks | quarantined, spec only | Quarantined | no | Quarantined in `quarantine/credits.ts` |
 | #47 Agent-to-Agent (A2A) Routing Protocol | built | Adapted (MIT) | no | `tests/a2a.test.ts` |
 | SSRF Guard (Zero-Trust IP & DNS Validation) | built | Unverified (flagged for counsel) | no | `tests/ssrf.test.ts` |
 | Clean-Room Spec: GeoIP Country & IP Blocking | spec only | Clean-room spec | no | `docs/specs/geoip-ip-blocking.md` |

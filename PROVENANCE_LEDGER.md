@@ -1,9 +1,15 @@
 # Provenance Ledger
 
-This ledger records the origin, licensing treatment, specification author, and implementation engineer for every file in `src/`. Every file is accounted for. Treatments strictly follow verified source lineage and clean-room provenance standards.
+This ledger records the origin, licensing treatment, specification author, and implementation engineer for every file in `src/` and `quarantine/`. Every file is accounted for. Treatments strictly follow verified source lineage and clean-room provenance standards.
 
 | File | Feature / Subsystem | Primary Source & Path | Source Commit SHA | Treatment | Spec Author | Implementer | Date | License Notice Status |
 |:---|:---|:---|:---:|:---|:---|:---|:---:|:---:|
+| `quarantine/credits.ts` | #46 Prepaid Credit Gating & Automated Webhooks | Specification in `docs/specs/prepaid-credit-gating.md` | N/A (Quarantine) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Quarantined |
+| `quarantine/geoip.ts` | #38 GeoIP Country & Abuse IP Blacklisting | Specification in `docs/specs/geoip-ip-blocking.md` | N/A (Quarantine) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Quarantined |
+| `quarantine/leases.ts` | #45 Voice Turn Duration Metering & Preflight Leases | Specification in `docs/specs/voice-duration-metering.md` | N/A (Quarantine) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Quarantined |
+| `quarantine/tests/credits.test.ts` | #46 Prepaid Credit Test Suite | Isolated test suite for credit gating | N/A (Quarantine) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Quarantined |
+| `quarantine/tests/geoip.test.ts` | #38 GeoIP Test Suite | Isolated test suite for GeoIP filter | N/A (Quarantine) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Quarantined |
+| `quarantine/tests/leases.test.ts` | #45 Voice Leases Test Suite | Isolated test suite for voice duration metering | N/A (Quarantine) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Quarantined |
 | `src/agents/a2a.ts` | #47 Agent-to-Agent (A2A) Routing Protocol | Portkey (`src/handlers/`) & A2A Spec | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-19 | Yes (MIT) |
 | `src/audio/speech.ts` | #22 Audio Speech & Transcription API | Portkey (`src/handlers/createSpeechHandler.ts`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-19 | Yes (MIT) |
 | `src/batches/manager.ts` | #24 Batch Processing API | Portkey (`src/handlers/batchesHandler.ts`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-19 | Yes (MIT) |
@@ -29,7 +35,6 @@ This ledger records the origin, licensing treatment, specification author, and i
 | `src/providers/openai.ts` | #2 Provider Translation | Portkey (`src/providers/openai/`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-18 | Yes (MIT) |
 | `src/providers/registry.ts` | #2 Adapter Registry | Factory/Registry pattern | N/A (Standard Pattern) | Own implementation | ra1 Architecture | ra1 Engineering | 2026-10-18 | Yes |
 | `src/realtime/gateway.ts` | #20 Realtime Audio/WebSocket API | Portkey (`src/handlers/realtimeHandler.ts`) & OpenAI Realtime Spec | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey / OpenAI Spec | Antigravity Engineering | 2026-10-19 | Yes (MIT) |
-| `src/realtime/leases.ts` | #45 Voice Turn Duration Metering & Preflight Leases | Portkey / OpenAI Realtime session patterns | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Unverified (flagged for counsel) | Architecture Team | Antigravity Engineering | 2026-10-19 | Flagged |
 | `src/rerank/router.ts` | #30 Semantic Reranking API | LiteLLM rerank API specification | `7e6fb09da3987c8b75062307695f9083da55feed` | Adapted (MIT) | LiteLLM Spec | Antigravity Engineering | 2026-10-19 | Yes (MIT) |
 | `src/resilience/budgets.ts` | #27 Multi-Tier Hierarchical Budgets | Bifrost (`plugins/governance/`) | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Adapted (Apache-2.0) | Bifrost Spec | Antigravity Engineering | 2026-10-19 | Yes (Apache-2.0) |
 | `src/resilience/classifier.ts` | #10 Error Classification | Bifrost failure classification (`bifrost/core/failureclass.go`) | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Adapted (Apache-2.0) | Bifrost Spec | Antigravity Engineering | 2026-10-18 | Yes (Apache-2.0) |
@@ -42,7 +47,6 @@ This ledger records the origin, licensing treatment, specification author, and i
 | `src/routing/session-affinity.ts` | #32 Sticky Session Affinity | Bifrost (`core/sessionaffinity.go`) | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Adapted (Apache-2.0) | Bifrost Spec | Antigravity Engineering | 2026-10-19 | Yes (Apache-2.0) |
 | `src/routing/shadow.ts` | #33 Shadow & Canary Traffic Emulation | Bifrost decision emulation (`core/decisionemulation.go`) | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Adapted (Apache-2.0) | Bifrost Spec | Antigravity Engineering | 2026-10-19 | Yes (Apache-2.0) |
 | `src/security/byok.ts` | #29 Bring Your Own Key Routing | Portkey handler utils (`src/utils/`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-19 | Yes (MIT) |
-| `src/security/geoip.ts` | #38 GeoIP Country & Abuse IP Blacklisting | Specification in `docs/specs/geoip-ip-blocking.md` | N/A (Internal Spec) | Unverified (flagged for counsel) | Architecture Team | Antigravity Engineering | 2026-10-19 | Flagged |
 | `src/security/guardrails/pipeline.ts` | #19 Modular Guardrails Pipeline | Portkey plugins architecture (`src/plugins/`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-19 | Yes (MIT) |
 | `src/security/pii.ts` | #19 Reversible PII Engine | Specification in `docs/specs/reversible-pii-masking.md` | N/A (Internal Spec) | Unverified (flagged for counsel) | Architecture Team | Engineering (Same session; unproven isolation) | 2026-10-19 | Flagged |
 | `src/security/reasoning.ts` | #42 Reasoning Content Isolation | DeepSeek-R1 / Anthropic thinking specs & Bifrost | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Adapted (Apache-2.0) | Bifrost Spec | Antigravity Engineering | 2026-10-19 | Yes (Apache-2.0) |
@@ -50,7 +54,6 @@ This ledger records the origin, licensing treatment, specification author, and i
 | `src/security/ssrf.ts` | SSRF Guard | Outbound IP validation & fail-closed DNS resolution | N/A (RFC 1918/6598) | Unverified (flagged for counsel) | Antigravity Architecture | Antigravity Engineering | 2026-10-18 | Flagged |
 | `src/security/vault.ts` | #19 Reversible PII Token Vault | Specification in `docs/specs/reversible-pii-masking.md` | N/A (Internal Spec) | Unverified (flagged for counsel) | Architecture Team | Engineering (Same session; unproven isolation) | 2026-10-19 | Flagged |
 | `src/telemetry/body-offload.ts` | #31 Large Payload Body Offload | LiteLLM payload offload patterns | `7e6fb09da3987c8b75062307695f9083da55feed` | Adapted (MIT) | LiteLLM Spec | Antigravity Engineering | 2026-10-19 | Yes (MIT) |
-| `src/telemetry/credits.ts` | #46 Prepaid Credit Gating & Automated Webhooks | Specification in `docs/specs/prepaid-credit-gating.md` | N/A (Internal Spec) | Unverified (flagged for counsel) | Architecture Team | Antigravity Engineering | 2026-10-19 | Flagged |
 | `src/telemetry/metrics.ts` | Prometheus Metrics Exposition | Prometheus exposition format specification | N/A (Open Standard) | Own implementation | ra1 Architecture | ra1 Engineering | 2026-10-19 | Yes |
 | `src/telemetry/pricing-data.json` | #8 Pricing Table | Official public pricing pages (OpenAI, Anthropic, Google) | N/A (Provider Pricing) | Own implementation | Provider Pages | Antigravity Engineering | 2026-10-18 | Yes |
 | `src/telemetry/pricing.ts` | #8 Pricing Engine | Envoy AI Gateway design concept (`internal/llmcostcel/`) | `12fef6422579f544e84be8167d0979527d3576d4` | Adapted (Apache-2.0) | Envoy Spec | Antigravity Engineering | 2026-10-18 | Yes (Apache-2.0) |

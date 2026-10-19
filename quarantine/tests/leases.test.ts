@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { RealtimeVoiceMeter } from '../src/realtime/leases.js';
+import { RealtimeVoiceMeter } from '../leases.js';
 
 describe('Feature 45: Realtime Voice Turn Duration Metering & Preflight Session Leases', () => {
   it('grants a preflight duration lease for realtime voice sessions', () => {
