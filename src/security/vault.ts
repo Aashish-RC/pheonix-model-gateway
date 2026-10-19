@@ -76,7 +76,7 @@ export class TokenVault {
 
     // Generate non-colliding bracketed surrogate token
     const uniqueId = randomBytes(6).toString('hex');
-    const token = `[PII_${entityType.toUpperCase()}_${uniqueId}]`;
+    const token = `[TOKEN_${entityType.toUpperCase()}_${uniqueId}]`;
 
     const record: VaultTokenRecord = {
       token,

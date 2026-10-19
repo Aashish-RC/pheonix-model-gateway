@@ -48,7 +48,7 @@ describe('Feature 19: Modular Guardrail Plugin Pipeline Engine', () => {
     expect(result.reason).toContain('exceeds guardrail limit of 100 characters');
   });
 
-  it.skip('applies PII masking on request and restores PII on response across pipeline', async () => {
+  it('applies PII masking on request and restores PII on response across pipeline', async () => {
     const pipeline = new GuardrailPipeline([
       new MaxMessageLengthGuardrailPlugin(5000),
       new PIIGuardrailPlugin()

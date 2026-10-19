@@ -14,7 +14,7 @@ describe('TokenVault (Clean-Room Spec)', () => {
     const vault = new TokenVault(3600, { clock: mockClock } as any);
     const token = vault.store('user@example.com', 'EMAIL');
 
-    expect(token).toMatch(/^\[PII_[A-Z_]+_[a-zA-Z0-9_-]+\]$/);
+    expect(token).toMatch(/^\[(?:TOKEN|PII)_[A-Z_]+_[a-zA-Z0-9_-]+\]$/);
     const record = vault.get(token);
     expect(record).toBeDefined();
     expect(record?.originalValue).toBe('user@example.com');

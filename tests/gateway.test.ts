@@ -1,12 +1,23 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 import { ErrorClassifier } from '../src/resilience/classifier.js';
 import { CooldownTracker } from '../src/resilience/cooldown.js';
-import { SSRFGuard } from '../src/security/ssrf.js';
+import { SSRFGuard, createFakeDnsResolver } from '../src/security/ssrf.js';
 import { PricingEngine } from '../src/telemetry/pricing.js';
 import { ModelRouter } from '../src/routing/router.js';
 import { GatewayEngine } from '../src/core/engine.js';
 
 describe('ErrorClassifier (Bifrost-style Granular Classification)', () => {
+  beforeEach(() => {
+    SSRFGuard.setResolver(createFakeDnsResolver({
+      'api.openai.com': ['93.184.216.34'],
+      'api.anthropic.com': ['104.18.2.1'],
+      'generativelanguage.googleapis.com': ['142.250.180.10']
+    }));
+  });
+
+  afterEach(() => {
+    SSRFGuard.resetResolver();
+  });
   it('correctly classifies 429 rate limit errors as retryable with backoff', () => {
     const classified = ErrorClassifier.classify(429, { error: { message: 'Rate limit reached. Try again in 15s' } });
     expect(classified.category).toBe('RATE_LIMIT');
@@ -38,7 +49,7 @@ describe('ErrorClassifier (Bifrost-style Granular Classification)', () => {
   });
 });
 
-describe.skip('SSRFGuard (Clean-room Zero-Trust Security)', () => {
+describe('SSRFGuard (Clean-room Zero-Trust Security)', () => {
   it('blocks private IP ranges (10.0.0.0/8, 192.168.0.0/16)', async () => {
     await expect(SSRFGuard.validateUrl('http://10.0.0.5/v1')).rejects.toThrow('SSRF Guard');
     await expect(SSRFGuard.validateUrl('http://192.168.1.1/api')).rejects.toThrow('SSRF Guard');
@@ -69,7 +80,7 @@ describe('PricingEngine (Multi-Unit High-Precision Cost Calculation)', () => {
     expect(cost!.cacheDiscount).toBeGreaterThan(0);
   });
 
-  it.skip('returns null for unknown model and flags costEstimated with warning in audit record', async () => {
+  it('returns null for unknown model and flags costEstimated with warning in audit record', async () => {
     const cost = PricingEngine.calculateCost('unknown-model-xyz', {
       promptTokens: 100,
       completionTokens: 50,
@@ -198,7 +209,7 @@ describe('ModelRouter & CooldownTracker (Escape Routes & Failover)', () => {
   });
 });
 
-describe.skip('ResponseCache (Exact Match Canonical Prompt Caching)', () => {
+describe('ResponseCache (Exact Match Canonical Prompt Caching)', () => {
   it('stores and retrieves cached completions on identical requests when enabled', async () => {
     const { ResponseCache } = await import('../src/caching/cache.js');
     const cache = new ResponseCache({ enabled: true, defaultTtlSeconds: 60 });
@@ -223,7 +234,7 @@ describe.skip('ResponseCache (Exact Match Canonical Prompt Caching)', () => {
   });
 });
 
-describe.skip('SlidingWindowRateLimiter (Traffic Bounding)', () => {
+describe('SlidingWindowRateLimiter (Traffic Bounding)', () => {
   it('allows requests within threshold and blocks when exceeded', async () => {
     const { SlidingWindowRateLimiter } = await import('../src/resilience/ratelimit.js');
     const limiter = new SlidingWindowRateLimiter(2, 10); // 2 requests per 10s

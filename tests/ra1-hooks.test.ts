@@ -1,11 +1,21 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 import { GatewayEngine } from '../src/core/engine.js';
 import { ModelRouter } from '../src/routing/router.js';
 import { CooldownTracker } from '../src/resilience/cooldown.js';
 import { ProviderRegistry } from '../src/providers/registry.js';
 import { AuditRecord, PermissionDecision, ScopedCredential } from '../src/types/ra1.js';
+import { SSRFGuard, createFakeDnsResolver } from '../src/security/ssrf.js';
 
 describe('ra1 Integration Hooks (H1 to H4)', () => {
+  beforeEach(() => {
+    SSRFGuard.setResolver(createFakeDnsResolver({
+      'api.openai.com': ['93.184.216.34']
+    }));
+  });
+
+  afterEach(() => {
+    SSRFGuard.resetResolver();
+  });
   it('H2 Permission Hook: blocks request when decision is deny', async () => {
     const tracker = new CooldownTracker();
     const router = new ModelRouter(tracker);
@@ -55,7 +65,7 @@ describe('ra1 Integration Hooks (H1 to H4)', () => {
     }
   });
 
-  it.skip('H3 Vault Key Hook & H4 Audit Hook: injects scoped key and emits complete audit record', async () => {
+  it('H3 Vault Key Hook & H4 Audit Hook: injects scoped key and emits complete audit record', async () => {
     const tracker = new CooldownTracker();
     const router = new ModelRouter(tracker);
 
@@ -139,7 +149,7 @@ describe('ra1 Integration Hooks (H1 to H4)', () => {
     }
   });
 
-  it.skip('H2 Identity Hook: spoofed x-actor-id or authorization headers do not change actor (defaults to anonymous)', async () => {
+  it('H2 Identity Hook: spoofed x-actor-id or authorization headers do not change actor (defaults to anonymous)', async () => {
     let capturedActor = '';
     const { app, router } = await import('../src/core/server.js').then(m => m.createGatewayApp({
       auditHook: (record) => {
@@ -192,7 +202,7 @@ describe('ra1 Integration Hooks (H1 to H4)', () => {
     }
   });
 
-  it.skip('H2 Identity Hook: accepts verified actor from identity hook', async () => {
+  it('H2 Identity Hook: accepts verified actor from identity hook', async () => {
     let capturedActor = '';
     const { app, router } = await import('../src/core/server.js').then(m => m.createGatewayApp({
       identityHook: async () => 'verified-user-123',

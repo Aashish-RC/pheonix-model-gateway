@@ -1,11 +1,23 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 import { GatewayEngine } from '../src/core/engine.js';
 import { ModelRouter } from '../src/routing/router.js';
 import { CooldownTracker } from '../src/resilience/cooldown.js';
 import { AuditRecord } from '../src/types/ra1.js';
+import { SSRFGuard, createFakeDnsResolver } from '../src/security/ssrf.js';
 
 describe('W2: Engine Failover & Error Classification Invariants', () => {
-  it.skip('does NOT fail over on non-retryable 400 context length error and does NOT cooldown target', async () => {
+  beforeEach(() => {
+    SSRFGuard.setResolver(createFakeDnsResolver({
+      'target-a.com': ['93.184.216.34'],
+      'target-b.com': ['93.184.216.34']
+    }));
+  });
+
+  afterEach(() => {
+    SSRFGuard.resetResolver();
+  });
+
+  it('does NOT fail over on non-retryable 400 context length error and does NOT cooldown target', async () => {
     const tracker = new CooldownTracker();
     const router = new ModelRouter(tracker);
     const auditRecords: AuditRecord[] = [];
@@ -99,7 +111,7 @@ describe('W2: Engine Failover & Error Classification Invariants', () => {
     }
   });
 
-  it.skip('does NOT fail over on non-retryable 401 auth failure', async () => {
+  it('does NOT fail over on non-retryable 401 auth failure', async () => {
     const tracker = new CooldownTracker();
     const router = new ModelRouter(tracker);
     const auditRecords: AuditRecord[] = [];
@@ -171,7 +183,7 @@ describe('W2: Engine Failover & Error Classification Invariants', () => {
     }
   });
 
-  it.skip('SSRF failure emits exactly one audit record with 403', async () => {
+  it('SSRF failure emits exactly one audit record with 403', async () => {
     const tracker = new CooldownTracker();
     const router = new ModelRouter(tracker);
     const auditRecords: AuditRecord[] = [];

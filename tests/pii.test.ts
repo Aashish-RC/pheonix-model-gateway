@@ -126,8 +126,8 @@ describe('Reversible PII Masking Engine (Clean-Room Spec)', () => {
       const masked = engine.maskRequest(request);
       expect(masked.messages[1].content).not.toContain('user@test.com');
       expect(masked.messages[1].content).not.toContain('555-123-4567');
-      expect(masked.messages[1].content).toMatch(/\[PII_EMAIL_/);
-      expect(masked.messages[1].content).toMatch(/\[PII_PHONE_/);
+      expect(masked.messages[1].content).toMatch(/\[(?:TOKEN|PII)_EMAIL_/);
+      expect(masked.messages[1].content).toMatch(/\[(?:TOKEN|PII)_PHONE_/);
     });
 
     it('unmaskResponse restores surrogate tokens in ChatCompletionResponse choices', () => {

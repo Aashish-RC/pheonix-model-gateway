@@ -188,7 +188,7 @@ export class PIIMaskingEngine {
   }
 
   public unmaskText(text: string): string {
-    const tokenRegex = /\[PII_[A-Z_]+_[a-zA-Z0-9_-]+\]/g;
+    const tokenRegex = /\[(?:TOKEN|PII)_[A-Z_]+_[a-zA-Z0-9_-]+\]/g;
     return text.replace(tokenRegex, (token) => {
       const record = this.vault.get(token);
       if (record && record.originalValue) {
@@ -225,8 +225,8 @@ export class PIIMaskingEngine {
       if (!combined) return '';
 
       // Find possible surrogate token prefix at the tail of combined
-      // Surrogate format: [PII_<CATEGORY>_<HEX>]
-      const surrogatePrefixRegex = /\[(?:P(?:I(?:I(?:_[A-Z_]*(?:_[a-zA-Z0-9_-]*)?)?)?)?)?$/;
+      // Surrogate format: [TOKEN_<CATEGORY>_<HEX>] or [PII_<CATEGORY>_<HEX>]
+      const surrogatePrefixRegex = /\[(?:(?:T(?:O(?:K(?:E(?:N)?)?)?)?|P(?:I(?:I)?)?)(?:_[A-Z_]*(?:_[a-zA-Z0-9_-]*)?)?)?$/;
       const prefixMatch = combined.match(surrogatePrefixRegex);
 
       let processable = combined;
