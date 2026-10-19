@@ -1,3 +1,5 @@
+// Belongs to Layer 2 orchestration. Temporarily hosted in the gateway. To be moved out.
+
 /**
  * Feature 47: Agent-to-Agent (A2A) Routing Protocol Integration
  * Coordinates task dispatch, capability matching, and execution handoffs between autonomous agents.

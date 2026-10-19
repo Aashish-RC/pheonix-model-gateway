@@ -1,3 +1,5 @@
+// Belongs to app surface. Temporarily hosted in the gateway. To be moved out.
+
 export function renderConsoleHtml(): string {
   return `<!DOCTYPE html>
 <html lang="en">

@@ -1,3 +1,5 @@
+// Belongs to Layer 1 tool registry. Temporarily hosted in the gateway. To be moved out.
+
 import { ChatCompletionRequest, ChatCompletionResponse } from '../types/chat.js';
 
 export interface MCPToolDefinition {

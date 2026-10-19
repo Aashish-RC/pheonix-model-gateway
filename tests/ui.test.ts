@@ -13,19 +13,24 @@ describe('Feature 18: Embedded Control Console & Chat Playground UI', () => {
     expect(html).toContain('System Telemetry');
   });
 
-  it('serves console HTML at GET /console and GET /public with 200 OK', async () => {
-    const { app } = createGatewayApp();
+  it('serves console HTML at GET /console and GET /public with 200 OK when FEATURE_CONSOLE_UI is true', async () => {
+    process.env.FEATURE_CONSOLE_UI = 'true';
+    try {
+      const { app } = createGatewayApp();
 
-    const resConsole = await app.request('/console');
-    expect(resConsole.status).toBe(200);
-    expect(resConsole.headers.get('content-type')).toContain('text/html');
-    const textConsole = await resConsole.text();
-    expect(textConsole).toContain('Model Gateway Console');
+      const resConsole = await app.request('/console');
+      expect(resConsole.status).toBe(200);
+      expect(resConsole.headers.get('content-type')).toContain('text/html');
+      const textConsole = await resConsole.text();
+      expect(textConsole).toContain('Model Gateway Console');
 
-    const resPublic = await app.request('/public');
-    expect(resPublic.status).toBe(200);
-    expect(resPublic.headers.get('content-type')).toContain('text/html');
-    const textPublic = await resPublic.text();
-    expect(textPublic).toContain('playground-form');
+      const resPublic = await app.request('/public');
+      expect(resPublic.status).toBe(200);
+      expect(resPublic.headers.get('content-type')).toContain('text/html');
+      const textPublic = await resPublic.text();
+      expect(textPublic).toContain('playground-form');
+    } finally {
+      delete process.env.FEATURE_CONSOLE_UI;
+    }
   });
 });

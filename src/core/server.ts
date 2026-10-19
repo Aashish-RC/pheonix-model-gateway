@@ -8,7 +8,6 @@ import { SlidingWindowRateLimiter } from '../resilience/ratelimit.js';
 import { ResponseCache } from '../caching/cache.js';
 import { GatewayEngine } from './engine.js';
 import { PermissionHook, IdentityHook, KeyLookupHook, AuditHook, RequestContext } from '../types/ra1.js';
-import { renderConsoleHtml } from '../ui/console.js';
 import { TokenCounter } from '../telemetry/tokens.js';
 import { RerankEngine } from '../rerank/router.js';
 import { AudioRouter } from '../audio/speech.js';
@@ -69,9 +68,59 @@ export function createGatewayApp(options?: CreateGatewayAppOptions): {
     });
   });
 
-  // Embedded Control Console & Playground
-  app.get('/console', (c) => c.html(renderConsoleHtml()));
-  app.get('/public', (c) => c.html(renderConsoleHtml()));
+  // Feature-gated non-gateway modules (temporarily hosted; flag off by default)
+  if (process.env.FEATURE_CONSOLE_UI === 'true') {
+    app.get('/console', async (c) => {
+      const { renderConsoleHtml } = await import('../ui/console.js');
+      return c.html(renderConsoleHtml());
+    });
+    app.get('/public', async (c) => {
+      const { renderConsoleHtml } = await import('../ui/console.js');
+      return c.html(renderConsoleHtml());
+    });
+  }
+
+  if (process.env.FEATURE_MCP === 'true') {
+    app.get('/v1/mcp/tools', async (c) => {
+      const { MCPGateway } = await import('../mcp/gateway.js');
+      return c.json({ tools: MCPGateway.getInstance().listTools() });
+    });
+    app.post('/v1/mcp/execute', async (c) => {
+      const { MCPGateway } = await import('../mcp/gateway.js');
+      const body = await c.req.json();
+      const result = await MCPGateway.getInstance().executeToolCall(body);
+      return c.json(result);
+    });
+  }
+
+  if (process.env.FEATURE_TOOL_SEARCH === 'true') {
+    app.post('/v1/tools/search', async (c) => {
+      const { DynamicSemanticToolSearch } = await import('../mcp/tool-search.js');
+      const body = await c.req.json().catch(() => ({}));
+      const searcher = new DynamicSemanticToolSearch(body.tools || []);
+      const results = searcher.search(body.query || '', body.topK || 5);
+      return c.json({ results });
+    });
+  }
+
+  if (process.env.FEATURE_A2A === 'true') {
+    app.post('/v1/a2a/tasks', async (c) => {
+      const { A2ARouter } = await import('../agents/a2a.js');
+      const router = new A2ARouter();
+      const body = await c.req.json();
+      const result = await router.dispatchTask(body);
+      return c.json(result);
+    });
+  }
+
+  if (process.env.FEATURE_SECRETS_SYNC === 'true') {
+    app.post('/v1/secrets/sync', async (c) => {
+      const { SecretsManager } = await import('../security/secrets.js');
+      const body = await c.req.json().catch(() => ({}));
+      const manager = new SecretsManager(body);
+      return c.json({ status: 'synchronized', backend: body.backend || 'env' });
+    });
+  }
 
   // Token Counting API
   app.post('/v1/tokenize', async (c) => {

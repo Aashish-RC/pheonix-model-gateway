@@ -1,3 +1,5 @@
+// Belongs to Layer 0 vault. Temporarily hosted in the gateway. To be moved out.
+
 export interface SecretConfig {
   backend: 'env' | 'vault' | 'infisical' | 'memory';
   vaultUrl?: string;

@@ -8,64 +8,80 @@ A high-performance, resilient, multi-provider AI model gateway built in TypeScri
 
 Status is tracked per-feature derived directly from `PROVENANCE_LEDGER.md`. Clean-room behavior specifications are located in `docs/specs/`.
 
-| Feature | Status | License Treatment | Reviewed by Human |
-|:---|:---:|:---|:---:|
-| Core H1 `IGatewayEngine` & ra1 Contract | built | Own implementation | no |
-| Core H2 Permission Hook (`beforeRequest`) | built | Own implementation | no |
-| Core H3 Key Lookup Hook (`onKeyLookup`) | built | Own implementation | no |
-| Core H4 Audit Hook (`onAuditRecord`) | built | Own implementation | no |
-| #1 OpenAI Chat Endpoint (`/v1/chat/completions`) | built | Adapted (MIT) | no |
-| #2 Provider Translation (OpenAI, Anthropic, Gemini, Ollama, Bedrock, Local) | built | Adapted (MIT / Apache-2.0) | no |
-| #3 SSE Streaming Normalization | built | Adapted (MIT) | no |
-| #4 Fallback Chains & Cooldown Tracking | built | Adapted (Apache-2.0) | no |
-| #5 Model Aliasing & Virtual Tiers | built | Adapted (Apache-2.0 / MIT) | no |
-| #6 Local Runtimes (Ollama, llama.cpp, LocalAI) | built | Own implementation | no |
-| #7 Token Accounting & Estimation | built | Adapted (MIT) | no |
-| #8 Token Pricing & Cost Engine | built | Adapted (Apache-2.0) | no |
-| #9 Request Rate Limiter (Sliding Window) | built | Unverified (flagged for counsel) | no |
-| #10 Normalized Error Envelope & Mapping | built | Adapted (Apache-2.0) | no |
-| #11 Prompt Cache Affinity & Routing Strategies | built | Adapted (Apache-2.0) | no |
-| #12 OpenTelemetry GenAI Distributed Spans | built | Adapted (MIT) | no |
-| #13 Prometheus Metrics (`/metrics`) & Health Probes | built | Own implementation | no |
-| #14 Exact Response Cache | built | Unverified (flagged for counsel) | no |
-| #15 Sliding-Window TPM Limiter | built | Adapted (MIT) | no |
-| #16 AWS Bedrock SigV4 Adapter | built | Adapted (Apache-2.0) | no |
-| #17 MCP Tool Gateway & Agent Loop | built | Adapted (Apache-2.0) | no |
-| #18 Embedded Control Console UI (`/console`) | built | Own implementation | no |
-| #19 Reversible PII Masking Engine & Vault | built | Unverified (flagged for counsel) | no |
-| #20 Realtime Audio/WebSocket API (`/v1/realtime`) | built | Adapted (MIT) | no |
-| #21 Semantic Vector Caching | built | Adapted (Apache-2.0) | no |
-| #22 Audio Speech (TTS) & Transcription (STT) | built | Adapted (MIT) | no |
-| #23 Image Generations & Edits API | built | Adapted (MIT) | no |
-| #24 Batch Processing API (`/v1/batches`) | built | Adapted (MIT) | no |
-| #25 Token Counting API (`/v1/tokenize`) | built | Adapted (Apache-2.0) | no |
-| #26 External Secrets Manager & H3 Hook | built | Own implementation | no |
-| #27 Multi-Tier Hierarchical Budgets | built | Adapted (Apache-2.0) | no |
-| #28 Advanced Conditional Routing | built | Adapted (MIT) | no |
-| #29 Bring Your Own Key (BYOK) Routing | built | Adapted (MIT) | no |
-| #30 Semantic Reranking API (`/v1/rerank`) | built | Adapted (MIT) | no |
-| #31 Large Payload Body Offload | built | Adapted (MIT) | no |
-| #32 Sticky Session Affinity | built | Adapted (Apache-2.0) | no |
-| #33 Shadow & Canary Traffic Emulation | built | Adapted (Apache-2.0) | no |
-| #34 Pre-first-byte Abort & Post-first-byte SSE Error | built | Adapted (Apache-2.0) | no |
-| #35 Declarative Config Manifest Loader | built | Adapted (Apache-2.0) | no |
-| #36 GCP OAuth2 Token Refresher | built | Adapted (Apache-2.0) | no |
-| #37 Video Generation API (`/v1/videos`) | built | Adapted (MIT) | no |
-| #38 GeoIP Country & Abuse IP Blacklisting | quarantined, spec only | Quarantined | no |
-| #39 File Management & Fine-Tuning API | built | Adapted (MIT) | no |
-| #40 Dynamic Semantic Tool Search | built | Adapted (Apache-2.0) | no |
-| #41 Modular Guardrails Pipeline | built | Adapted (MIT) | no |
-| #42 Reasoning Content Isolation | built | Adapted (Apache-2.0) | no |
-| #43 Common Expression Language (CEL) Engine | built | Adapted (Apache-2.0) | no |
-| #44 Dual-Tier Mesh Architecture | spec only (`docs/deployment-notes.md`) | Replaced with deployment note | no |
-| #45 Voice Turn Duration Metering & Preflight Leases | quarantined, spec only | Quarantined | no |
-| #46 Prepaid Credit Gating & Automated Webhooks | quarantined, spec only | Quarantined | no |
-| #47 Agent-to-Agent (A2A) Routing Protocol | built | Adapted (MIT) | no |
-| SSRF Guard (Zero-Trust IP & DNS Validation) | built | Unverified (flagged for counsel) | no |
-| Spec: GeoIP Country & IP Blocking | spec only | Clean-room spec (`docs/specs/geoip-ip-blocking.md`) | no |
-| Spec: Voice-Duration Metering & Leases | spec only | Clean-room spec (`docs/specs/voice-duration-metering.md`) | no |
-| Spec: Prepaid Credit Gating & Webhooks | spec only | Clean-room spec (`docs/specs/prepaid-credit-gating.md`) | no |
-| Spec: Reversible PII Masking | spec only | Clean-room spec (`docs/specs/reversible-pii-masking.md`) | no |
+| Feature | Status | License Treatment | Home layer | Hosted in gateway: temporarily, flag off | Reviewed by Human |
+|:---|:---:|:---|:---:|:---:|:---:|
+| Core H1 `IGatewayEngine` & ra1 Contract | built | Own implementation | Gateway Core | active | no |
+| Core H2 Permission Hook (`beforeRequest`) | built | Own implementation | Gateway Core | active | no |
+| Core H3 Key Lookup Hook (`onKeyLookup`) | built | Own implementation | Gateway Core | active | no |
+| Core H4 Audit Hook (`onAuditRecord`) | built | Own implementation | Gateway Core | active | no |
+| #1 OpenAI Chat Endpoint (`/v1/chat/completions`) | built | Adapted (MIT) | Gateway Core | active | no |
+| #2 Provider Translation (OpenAI, Anthropic, Gemini, Ollama, Bedrock, Local) | built | Adapted (MIT / Apache-2.0) | Gateway Core | active | no |
+| #3 SSE Streaming Normalization | built | Adapted (MIT) | Gateway Core | active | no |
+| #4 Fallback Chains & Cooldown Tracking | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #5 Model Aliasing & Virtual Tiers | built | Adapted (Apache-2.0 / MIT) | Gateway Core | active | no |
+| #6 Local Runtimes (Ollama, llama.cpp, LocalAI) | built | Own implementation | Gateway Core | active | no |
+| #7 Token Accounting & Estimation | built | Adapted (MIT) | Gateway Core | active | no |
+| #8 Token Pricing & Cost Engine | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #9 Request Rate Limiter (Sliding Window) | built | Unverified (flagged for counsel) | Gateway Core | active | no |
+| #10 Normalized Error Envelope & Mapping | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #11 Prompt Cache Affinity & Routing Strategies | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #12 OpenTelemetry GenAI Distributed Spans | built | Adapted (MIT) | Gateway Core | active | no |
+| #13 Prometheus Metrics (`/metrics`) & Health Probes | built | Own implementation | Gateway Core | active | no |
+| #14 Exact Response Cache | built | Unverified (flagged for counsel) | Gateway Core | active | no |
+| #15 Sliding-Window TPM Limiter | built | Adapted (MIT) | Gateway Core | active | no |
+| #16 AWS Bedrock SigV4 Adapter | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #17 MCP Tool Gateway & Agent Loop | built | Adapted (Apache-2.0) | Layer 1 tool registry | temporarily, flag off (`FEATURE_MCP`) | no |
+| #18 Embedded Control Console UI (`/console`) | built | Own implementation | app surface | temporarily, flag off (`FEATURE_CONSOLE_UI`) | no |
+| #19 Reversible PII Masking Engine & Vault | built | Unverified (flagged for counsel) | Gateway Core | active | no |
+| #20 Realtime Audio/WebSocket API (`/v1/realtime`) | built | Adapted (MIT) | Gateway Core | active | no |
+| #21 Semantic Vector Caching | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #22 Audio Speech (TTS) & Transcription (STT) | built | Adapted (MIT) | Gateway Core | active | no |
+| #23 Image Generations & Edits API | built | Adapted (MIT) | Gateway Core | active | no |
+| #24 Batch Processing API (`/v1/batches`) | built | Adapted (MIT) | Gateway Core | active | no |
+| #25 Token Counting API (`/v1/tokenize`) | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #26 External Secrets Manager & H3 Hook | built | Own implementation | Layer 0 vault | temporarily, flag off (`FEATURE_SECRETS_SYNC`) | no |
+| #27 Multi-Tier Hierarchical Budgets | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #28 Advanced Conditional Routing | built | Adapted (MIT) | Gateway Core | active | no |
+| #29 Bring Your Own Key (BYOK) Routing | built | Adapted (MIT) | Gateway Core | active | no |
+| #30 Semantic Reranking API (`/v1/rerank`) | built | Adapted (MIT) | Gateway Core | active | no |
+| #31 Large Payload Body Offload | built | Adapted (MIT) | Gateway Core | active | no |
+| #32 Sticky Session Affinity | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #33 Shadow & Canary Traffic Emulation | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #34 Pre-first-byte Abort & Post-first-byte SSE Error | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #35 Declarative Config Manifest Loader | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #36 GCP OAuth2 Token Refresher | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #37 Video Generation API (`/v1/videos`) | built | Adapted (MIT) | Gateway Core | active | no |
+| #38 GeoIP Country & Abuse IP Blacklisting | quarantined, spec only | Quarantined | Layer 0 / Security | no (quarantined) | no |
+| #39 File Management & Fine-Tuning API | built | Adapted (MIT) | Gateway Core | active | no |
+| #40 Dynamic Semantic Tool Search | built | Adapted (Apache-2.0) | Layer 1 tool registry | temporarily, flag off (`FEATURE_TOOL_SEARCH`) | no |
+| #41 Modular Guardrails Pipeline | built | Adapted (MIT) | Gateway Core | active | no |
+| #42 Reasoning Content Isolation | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #43 Common Expression Language (CEL) Engine | built | Adapted (Apache-2.0) | Gateway Core | active | no |
+| #44 Dual-Tier Mesh Architecture | spec only (`docs/deployment-notes.md`) | Replaced with deployment note | Gateway Deployment | spec only | no |
+| #45 Voice Turn Duration Metering & Preflight Leases | quarantined, spec only | Quarantined | Layer 0 Metering | no (quarantined) | no |
+| #46 Prepaid Credit Gating & Automated Webhooks | quarantined, spec only | Quarantined | Layer 0 Metering | no (quarantined) | no |
+| #47 Agent-to-Agent (A2A) Routing Protocol | built | Adapted (MIT) | Layer 2 orchestration | temporarily, flag off (`FEATURE_A2A`) | no |
+| SSRF Guard (Zero-Trust IP & DNS Validation) | built | Unverified (flagged for counsel) | Gateway Core | active | no |
+| Spec: GeoIP Country & IP Blocking | spec only | Clean-room spec (`docs/specs/geoip-ip-blocking.md`) | Clean-Room Spec | spec only | no |
+| Spec: Voice-Duration Metering & Leases | spec only | Clean-room spec (`docs/specs/voice-duration-metering.md`) | Clean-Room Spec | spec only | no |
+| Spec: Prepaid Credit Gating & Webhooks | spec only | Clean-room spec (`docs/specs/prepaid-credit-gating.md`) | Clean-Room Spec | spec only | no |
+| Spec: Reversible PII Masking | spec only | Clean-room spec (`docs/specs/reversible-pii-masking.md`) | Clean-Room Spec | spec only | no |
+
+---
+
+## Feature Flags (Non-Gateway Modules)
+
+The following non-gateway subsystems belong to outer layers and are temporarily hosted in the gateway repository behind explicit environment feature flags (**OFF by default**):
+
+| Feature Flag | Default | Home Layer | Gated Endpoint(s) | Description |
+|:---|:---:|:---|:---|:---|
+| `FEATURE_CONSOLE_UI` | `false` | App Surface | `GET /console`, `GET /public` | Web admin control console and interactive playground UI. |
+| `FEATURE_MCP` | `false` | Layer 1 tool registry | `GET /v1/mcp/tools`, `POST /v1/mcp/execute` | Model Context Protocol tool registry and tool-call execution loop. |
+| `FEATURE_TOOL_SEARCH` | `false` | Layer 1 tool registry | `POST /v1/tools/search` | Dynamic semantic tool search and ranking over tool schemas. |
+| `FEATURE_A2A` | `false` | Layer 2 orchestration | `POST /v1/a2a/tasks` | Agent-to-Agent routing protocol task dispatch and capability matching. |
+| `FEATURE_SECRETS_SYNC` | `false` | Layer 0 vault | `POST /v1/secrets/sync` | External secrets manager synchronization (Vault/Infisical). The core H3 key-lookup hook remains active regardless. |
+
+When any flag is off, the module is not imported at startup and its routes are not registered (returning HTTP 404).
 
 ---
 
