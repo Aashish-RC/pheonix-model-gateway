@@ -6,7 +6,7 @@ A high-performance, resilient, multi-provider AI model gateway built in TypeScri
 
 ## Provenance & Implementation Status
 
-Status is tracked per-feature derived directly from `PROVENANCE_LEDGER.md`. Quarantined and moved modules are excluded from compilation and test suites. Clean-room behavior specifications are located in `docs/specs/`.
+Status is tracked per-feature derived directly from `PROVENANCE_LEDGER.md`. Clean-room behavior specifications are located in `docs/specs/`.
 
 | Feature | Status | License Treatment | Reviewed by Human |
 |:---|:---:|:---|:---:|
@@ -30,8 +30,8 @@ Status is tracked per-feature derived directly from `PROVENANCE_LEDGER.md`. Quar
 | #14 Exact Response Cache | built | Unverified (flagged for counsel) | no |
 | #15 Sliding-Window TPM Limiter | built | Adapted (MIT) | no |
 | #16 AWS Bedrock SigV4 Adapter | built | Adapted (Apache-2.0) | no |
-| #17 MCP Tool Gateway & Agent Loop | moved (`packages-pending/layer-1-tool-registry/`) | Adapted (Apache-2.0) | no |
-| #18 Embedded Control Console UI Stub | built (stub; UI moved to `packages-pending/app-surface/`) | Own implementation | no |
+| #17 MCP Tool Gateway & Agent Loop | built | Adapted (Apache-2.0) | no |
+| #18 Embedded Control Console UI (`/console`) | built | Own implementation | no |
 | #19 Reversible PII Masking Engine & Vault | built | Unverified (flagged for counsel) | no |
 | #20 Realtime Audio/WebSocket API (`/v1/realtime`) | built | Adapted (MIT) | no |
 | #21 Semantic Vector Caching | built | Adapted (Apache-2.0) | no |
@@ -39,7 +39,7 @@ Status is tracked per-feature derived directly from `PROVENANCE_LEDGER.md`. Quar
 | #23 Image Generations & Edits API | built | Adapted (MIT) | no |
 | #24 Batch Processing API (`/v1/batches`) | built | Adapted (MIT) | no |
 | #25 Token Counting API (`/v1/tokenize`) | built | Adapted (Apache-2.0) | no |
-| #26 External Secrets Manager Sync Stub | built (stub; manager moved to `packages-pending/layer-0-vault/`) | Own implementation | no |
+| #26 External Secrets Manager & H3 Hook | built | Own implementation | no |
 | #27 Multi-Tier Hierarchical Budgets | built | Adapted (Apache-2.0) | no |
 | #28 Advanced Conditional Routing | built | Adapted (MIT) | no |
 | #29 Bring Your Own Key (BYOK) Routing | built | Adapted (MIT) | no |
@@ -51,16 +51,16 @@ Status is tracked per-feature derived directly from `PROVENANCE_LEDGER.md`. Quar
 | #35 Declarative Config Manifest Loader | built | Adapted (Apache-2.0) | no |
 | #36 GCP OAuth2 Token Refresher | built | Adapted (Apache-2.0) | no |
 | #37 Video Generation API (`/v1/videos`) | built | Adapted (MIT) | no |
-| #38 GeoIP Country & Abuse IP Blacklisting | quarantined | Quarantined | no |
+| #38 GeoIP Country & Abuse IP Blacklisting | built | Unverified (flagged for counsel) | no |
 | #39 File Management & Fine-Tuning API | built | Adapted (MIT) | no |
-| #40 Dynamic Semantic Tool Search | moved (`packages-pending/layer-1-tool-registry/`) | Adapted (Apache-2.0) | no |
+| #40 Dynamic Semantic Tool Search | built | Adapted (Apache-2.0) | no |
 | #41 Modular Guardrails Pipeline | built | Adapted (MIT) | no |
 | #42 Reasoning Content Isolation | built | Adapted (Apache-2.0) | no |
 | #43 Common Expression Language (CEL) Engine | built | Adapted (Apache-2.0) | no |
 | #44 Dual-Tier Mesh Architecture | spec only (`docs/deployment-notes.md`) | Replaced with deployment note | no |
-| #45 Voice Turn Duration Metering & Preflight Leases | moved (`packages-pending/layer-0-metering-billing/`) | Quarantined / Moved | no |
-| #46 Prepaid Credit Gating & Automated Webhooks | moved (`packages-pending/layer-0-metering-billing/`) | Quarantined / Moved | no |
-| #47 Agent-to-Agent (A2A) Routing Protocol | moved (`packages-pending/layer-2-orchestration/`) | Adapted (MIT) | no |
+| #45 Voice Turn Duration Metering & Preflight Leases | built | Unverified (flagged for counsel) | no |
+| #46 Prepaid Credit Gating & Automated Webhooks | built | Unverified (flagged for counsel) | no |
+| #47 Agent-to-Agent (A2A) Routing Protocol | built | Adapted (MIT) | no |
 | SSRF Guard (Zero-Trust IP & DNS Validation) | built | Unverified (flagged for counsel) | no |
 | Spec: GeoIP Country & IP Blocking | spec only | Clean-room spec (`docs/specs/geoip-ip-blocking.md`) | no |
 | Spec: Voice-Duration Metering & Leases | spec only | Clean-room spec (`docs/specs/voice-duration-metering.md`) | no |

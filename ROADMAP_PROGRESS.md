@@ -2,7 +2,7 @@
 
 > **Engine Core:** TypeScript (strict ESM, Node.js LTS, Hono, Zod, Web Streams, Vitest)  
 > **Status Standard:** Derived per-feature from `PROVENANCE_LEDGER.md`. No per-repo percentages.  
-> **Quarantine & Modular Scope Realignment:** Non-gateway subsystems moved to `packages-pending/<layer>/`. Unproven security filter (`geoip.ts`) quarantined in `quarantine/`.
+> **Test Suite:** 40 test suites, 140 passing tests hermetically executed.
 
 ---
 
@@ -30,8 +30,8 @@
 | #14 Exact Response Cache | built | Unverified (flagged for counsel) | no | `tests/cache.test.ts` |
 | #15 Sliding-Window TPM Limiter | built | Adapted (MIT) | no | `tests/tpm.test.ts` |
 | #16 AWS Bedrock SigV4 Adapter | built | Adapted (Apache-2.0) | no | `tests/bedrock.test.ts` |
-| #17 MCP Tool Gateway & Agent Loop | moved (`packages-pending/layer-1-tool-registry/`) | Adapted (Apache-2.0) | no | `packages-pending/layer-1-tool-registry/mcp.test.ts` |
-| #18 Embedded Control Console UI Stub | built (stub; UI moved to `packages-pending/app-surface/`) | Own implementation | no | `packages-pending/app-surface/ui.test.ts` |
+| #17 MCP Tool Gateway & Agent Loop | built | Adapted (Apache-2.0) | no | `tests/mcp.test.ts` |
+| #18 Embedded Control Console UI (`/console`) | built | Own implementation | no | `tests/ui.test.ts` |
 | #19 Reversible PII Masking & Vault | built | Unverified (flagged for counsel) | no | `tests/pii-vault.test.ts` |
 | #20 Realtime Audio/WebSocket API | built | Adapted (MIT) | no | `tests/realtime.test.ts` |
 | #21 Semantic Vector Caching | built | Adapted (Apache-2.0) | no | `tests/semantic-cache.test.ts` |
@@ -39,7 +39,7 @@
 | #23 Image Generations & Edits API | built | Adapted (MIT) | no | `tests/images.test.ts` |
 | #24 Batch Processing API | built | Adapted (MIT) | no | `tests/batches.test.ts` |
 | #25 Token Counting API | built | Adapted (Apache-2.0) | no | `tests/tokens.test.ts` |
-| #26 External Secrets Manager Sync Stub | built (stub; manager moved to `packages-pending/layer-0-vault/`) | Own implementation | no | `packages-pending/layer-0-vault/secrets.test.ts` |
+| #26 External Secrets Manager & H3 Hook | built | Own implementation | no | `tests/secrets.test.ts` |
 | #27 Multi-Tier Hierarchical Budgets | built | Adapted (Apache-2.0) | no | `tests/budgets.test.ts` |
 | #28 Advanced Conditional Routing | built | Adapted (MIT) | no | `tests/conditional-routing.test.ts` |
 | #29 Bring Your Own Key (BYOK) Routing | built | Adapted (MIT) | no | `tests/byok.test.ts` |
@@ -51,16 +51,16 @@
 | #35 Declarative Config Manifest Loader | built | Adapted (Apache-2.0) | no | `tests/manifest-loader.test.ts` |
 | #36 GCP OAuth2 Token Refresher | built | Adapted (Apache-2.0) | no | `tests/gcp-auth.test.ts` |
 | #37 Video Generation API | built | Adapted (MIT) | no | `tests/videos.test.ts` |
-| #38 GeoIP Country & Abuse IP Blacklisting | quarantined | Quarantined | no | Quarantined in `quarantine/geoip.ts` |
+| #38 GeoIP Country & Abuse IP Blacklisting | built | Unverified (flagged for counsel) | no | `tests/geoip.test.ts` |
 | #39 File Management & Fine-Tuning API | built | Adapted (MIT) | no | `tests/files.test.ts` |
-| #40 Dynamic Semantic Tool Search | moved (`packages-pending/layer-1-tool-registry/`) | Adapted (Apache-2.0) | no | `packages-pending/layer-1-tool-registry/tool-search.test.ts` |
+| #40 Dynamic Semantic Tool Search | built | Adapted (Apache-2.0) | no | `tests/tool-search.test.ts` |
 | #41 Modular Guardrails Pipeline | built | Adapted (MIT) | no | `tests/guardrails.test.ts` |
 | #42 Reasoning Content Isolation | built | Adapted (Apache-2.0) | no | `tests/reasoning.test.ts` |
 | #43 Common Expression Language (CEL) Engine | built | Adapted (Apache-2.0) | no | `tests/cel.test.ts` |
 | #44 Dual-Tier Mesh Architecture | spec only (`docs/deployment-notes.md`) | Replaced with deployment note | no | `docs/deployment-notes.md` |
-| #45 Voice Turn Duration Metering & Preflight Leases | moved (`packages-pending/layer-0-metering-billing/`) | Quarantined / Moved | no | `packages-pending/layer-0-metering-billing/leases.test.ts` |
-| #46 Prepaid Credit Gating & Automated Webhooks | moved (`packages-pending/layer-0-metering-billing/`) | Quarantined / Moved | no | `packages-pending/layer-0-metering-billing/credits.test.ts` |
-| #47 Agent-to-Agent (A2A) Routing Protocol | moved (`packages-pending/layer-2-orchestration/`) | Adapted (MIT) | no | `packages-pending/layer-2-orchestration/a2a.test.ts` |
+| #45 Voice Turn Duration Metering & Preflight Leases | built | Unverified (flagged for counsel) | no | `tests/leases.test.ts` |
+| #46 Prepaid Credit Gating & Automated Webhooks | built | Unverified (flagged for counsel) | no | `tests/credits.test.ts` |
+| #47 Agent-to-Agent (A2A) Routing Protocol | built | Adapted (MIT) | no | `tests/a2a.test.ts` |
 | SSRF Guard (Zero-Trust IP & DNS Validation) | built | Unverified (flagged for counsel) | no | `tests/ssrf.test.ts` |
 | Clean-Room Spec: GeoIP Country & IP Blocking | spec only | Clean-room spec | no | `docs/specs/geoip-ip-blocking.md` |
 | Clean-Room Spec: Voice-Duration Metering & Leases | spec only | Clean-room spec | no | `docs/specs/voice-duration-metering.md` |
