@@ -46,7 +46,9 @@ This ledger records the origin, licensing treatment, specification author, and i
 | `src/routing/router.ts` | #4, #5, #11 Router | Bifrost routing strategies (`bifrost/plugins/routing/`) | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Adapted (Apache-2.0) | Bifrost Spec | Antigravity Engineering | 2026-10-18 | Gateway Core | active | Yes (Apache-2.0) |
 | `src/routing/session-affinity.ts` | #32 Sticky Session Affinity | Bifrost (`core/sessionaffinity.go`) | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Adapted (Apache-2.0) | Bifrost Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (Apache-2.0) |
 | `src/routing/shadow.ts` | #33 Shadow & Canary Traffic Emulation | Bifrost decision emulation (`core/decisionemulation.go`) | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Adapted (Apache-2.0) | Bifrost Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (Apache-2.0) |
+| `src/realtime/leases.ts` | #45 Voice Turn Duration Metering & Preflight Leases | `docs/specs/voice-duration-metering.md` | N/A (Clean-room) | Clean-room (implementer saw only the spec) | session that read AGPL source (see spec header) | fresh session 2026-10-19 | 2026-10-19 | Layer 0 Metering | temporarily, flag off (`FEATURE_VOICE_LEASES`) | Clean-Room Implementation |
 | `src/security/byok.ts` | #29 Bring Your Own Key Routing | Portkey handler utils (`src/utils/`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (MIT) |
+| `src/security/geoip.ts` | #38 GeoIP Country & Abuse IP Blacklisting | `docs/specs/geoip-ip-blocking.md` | N/A (Clean-room) | Clean-room (implementer saw only the spec) | session that read AGPL source (see spec header) | fresh session 2026-10-19 | 2026-10-19 | Layer 0 Security | temporarily, flag off (`FEATURE_GEOIP`) | Clean-Room Implementation |
 | `src/security/guardrails/pipeline.ts` | #19 Modular Guardrails Pipeline | Portkey plugins architecture (`src/plugins/`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (MIT) |
 | `src/security/pii.ts` | #19 Reversible PII Engine | Specification in `docs/specs/reversible-pii-masking.md` | N/A (Internal Spec) | Unverified (flagged for counsel) | Architecture Team | Engineering (Same session; unproven isolation) | 2026-10-19 | Gateway Core | active | Flagged |
 | `src/security/reasoning.ts` | #42 Reasoning Content Isolation | DeepSeek-R1 / Anthropic thinking specs & Bifrost | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Adapted (Apache-2.0) | Bifrost Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (Apache-2.0) |
@@ -54,6 +56,7 @@ This ledger records the origin, licensing treatment, specification author, and i
 | `src/security/ssrf.ts` | SSRF Guard | Outbound IP validation & fail-closed DNS resolution | N/A (RFC 1918/6598) | Unverified (flagged for counsel) | Antigravity Architecture | Antigravity Engineering | 2026-10-18 | Gateway Core | active | Flagged |
 | `src/security/vault.ts` | #19 Reversible PII Token Vault | Specification in `docs/specs/reversible-pii-masking.md` | N/A (Internal Spec) | Unverified (flagged for counsel) | Architecture Team | Engineering (Same session; unproven isolation) | 2026-10-19 | Gateway Core | active | Flagged |
 | `src/telemetry/body-offload.ts` | #31 Large Payload Body Offload | LiteLLM payload offload patterns | `7e6fb09da3987c8b75062307695f9083da55feed` | Adapted (MIT) | LiteLLM Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (MIT) |
+| `src/telemetry/credits.ts` | #46 Prepaid Credit Gating & Automated Webhooks | `docs/specs/prepaid-credit-gating.md` | N/A (Clean-room) | Clean-room (implementer saw only the spec) | session that read AGPL source (see spec header) | fresh session 2026-10-19 | 2026-10-19 | Layer 0 Metering | temporarily, flag off (`FEATURE_PREPAID_CREDITS`) | Clean-Room Implementation |
 | `src/telemetry/metrics.ts` | Prometheus Metrics Exposition | Prometheus exposition format specification | N/A (Open Standard) | Own implementation | ra1 Architecture | ra1 Engineering | 2026-10-19 | Gateway Core | active | Yes |
 | `src/telemetry/pricing.ts` | #8 Pricing Engine | Envoy AI Gateway design concept (`internal/llmcostcel/`) | `12fef6422579f544e84be8167d0979527d3576d4` | Adapted (Apache-2.0) | Envoy Spec | Antigravity Engineering | 2026-10-18 | Gateway Core | active | Yes (Apache-2.0) |
 | `src/telemetry/tokens.ts` | #25 Token Counting API | Envoy AI Gateway (`internal/translator/tokenize.go`) | `12fef6422579f544e84be8167d0979527d3576d4` | Adapted (Apache-2.0) | Envoy Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (Apache-2.0) |
@@ -69,13 +72,15 @@ This ledger records the origin, licensing treatment, specification author, and i
 
 ---
 
-### Clean-Room Specifications
+### Clean-Room Specifications & Verification
 
-The following formal specifications exist in `docs/specs/` to support future clean-room isolated implementation:
-- `docs/specs/geoip-ip-blocking.md`: Spec for GeoIP Country & IP Blocking.
-- `docs/specs/voice-duration-metering.md`: Spec for Voice Turn Duration Metering & Preflight Leases.
-- `docs/specs/prepaid-credit-gating.md`: Spec for Prepaid Credit Gating & Automated Webhooks.
+The following formal specifications exist in `docs/specs/` and have been implemented in a clean-room environment by a fresh session seeing only the written specifications:
+- `docs/specs/geoip-ip-blocking.md`: Spec for GeoIP Country & IP Blocking. Implemented in `src/security/geoip.ts` (test: `tests/geoip.test.ts`).
+- `docs/specs/voice-duration-metering.md`: Spec for Voice Turn Duration Metering & Preflight Leases. Implemented in `src/realtime/leases.ts` (test: `tests/leases.test.ts`).
+- `docs/specs/prepaid-credit-gating.md`: Spec for Prepaid Credit Gating & Automated Webhooks. Implemented in `src/telemetry/credits.ts` (test: `tests/credits.test.ts`).
 - `docs/specs/reversible-pii-masking.md`: Spec for Reversible PII Masking Engine & Vault.
+
+Verification of session separation relies on the process record, not on technical proof; flagged for counsel.
 
 ---
 

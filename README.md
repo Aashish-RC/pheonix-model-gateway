@@ -51,20 +51,20 @@ Status is tracked per-feature derived directly from `PROVENANCE_LEDGER.md`. Clea
 | #35 Declarative Config Manifest Loader | built | Adapted (Apache-2.0) | Gateway Core | active | no |
 | #36 GCP OAuth2 Token Refresher | built | Adapted (Apache-2.0) | Gateway Core | active | no |
 | #37 Video Generation API (`/v1/videos`) | built | Adapted (MIT) | Gateway Core | active | no |
-| #38 GeoIP Country & Abuse IP Blacklisting | quarantined, spec only | Quarantined | Layer 0 / Security | no (quarantined) | no |
+| #38 GeoIP Country & Abuse IP Blacklisting | built | Clean-room (implementer saw only the spec) | Layer 0 / Security | temporarily, flag off (`FEATURE_GEOIP`) | no |
 | #39 File Management & Fine-Tuning API | built | Adapted (MIT) | Gateway Core | active | no |
 | #40 Dynamic Semantic Tool Search | built | Own implementation | Layer 1 tool registry | temporarily, flag off (`FEATURE_TOOL_SEARCH`) | no |
 | #41 Modular Guardrails Pipeline | built | Adapted (MIT) | Gateway Core | active | no |
 | #42 Reasoning Content Isolation | built | Adapted (Apache-2.0) | Gateway Core | active | no |
 | #43 Common Expression Language (CEL) Engine | built | Adapted (Apache-2.0) | Gateway Core | active | no |
 | #44 Dual-Tier Mesh Architecture | spec only (`docs/deployment-notes.md`) | Replaced with deployment note | Gateway Deployment | spec only | no |
-| #45 Voice Turn Duration Metering & Preflight Leases | quarantined, spec only | Quarantined | Layer 0 Metering | no (quarantined) | no |
-| #46 Prepaid Credit Gating & Automated Webhooks | quarantined, spec only | Quarantined | Layer 0 Metering | no (quarantined) | no |
+| #45 Voice Turn Duration Metering & Preflight Leases | built | Clean-room (implementer saw only the spec) | Layer 0 Metering | temporarily, flag off (`FEATURE_VOICE_LEASES`) | no |
+| #46 Prepaid Credit Gating & Automated Webhooks | built | Clean-room (implementer saw only the spec) | Layer 0 Metering | temporarily, flag off (`FEATURE_PREPAID_CREDITS`) | no |
 | #47 Agent-to-Agent (A2A) Routing Protocol | built | Own implementation from public protocol spec | Layer 2 orchestration | temporarily, flag off (`FEATURE_A2A`) | no |
 | SSRF Guard (Zero-Trust IP & DNS Validation) | built | Unverified (flagged for counsel) | Gateway Core | active | no |
-| Spec: GeoIP Country & IP Blocking | spec only | Clean-room spec (`docs/specs/geoip-ip-blocking.md`) | Clean-Room Spec | spec only | no |
-| Spec: Voice-Duration Metering & Leases | spec only | Clean-room spec (`docs/specs/voice-duration-metering.md`) | Clean-Room Spec | spec only | no |
-| Spec: Prepaid Credit Gating & Webhooks | spec only | Clean-room spec (`docs/specs/prepaid-credit-gating.md`) | Clean-Room Spec | spec only | no |
+| Spec: GeoIP Country & IP Blocking | clean-room built | Clean-room spec (`docs/specs/geoip-ip-blocking.md`) | Clean-Room Spec | temporarily, flag off (`FEATURE_GEOIP`) | no |
+| Spec: Voice-Duration Metering & Leases | clean-room built | Clean-room spec (`docs/specs/voice-duration-metering.md`) | Clean-Room Spec | temporarily, flag off (`FEATURE_VOICE_LEASES`) | no |
+| Spec: Prepaid Credit Gating & Webhooks | clean-room built | Clean-room spec (`docs/specs/prepaid-credit-gating.md`) | Clean-Room Spec | temporarily, flag off (`FEATURE_PREPAID_CREDITS`) | no |
 | Spec: Reversible PII Masking | spec only | Clean-room spec (`docs/specs/reversible-pii-masking.md`) | Clean-Room Spec | spec only | no |
 
 ---
@@ -80,6 +80,9 @@ The following non-gateway subsystems belong to outer layers and are temporarily 
 | `FEATURE_TOOL_SEARCH` | `false` | Layer 1 tool registry | `POST /v1/tools/search` | Dynamic semantic tool search and ranking over tool schemas. |
 | `FEATURE_A2A` | `false` | Layer 2 orchestration | `POST /v1/a2a/tasks` | Agent-to-Agent routing protocol task dispatch and capability matching. |
 | `FEATURE_SECRETS_SYNC` | `false` | Layer 0 vault | `POST /v1/secrets/sync` | External secrets manager synchronization (Vault/Infisical). The core H3 key-lookup hook remains active regardless. |
+| `FEATURE_GEOIP` | `false` | Layer 0 Security | Perimeter Middleware | GeoIP country residency enforcement and abuse IP blacklisting. |
+| `FEATURE_VOICE_LEASES` | `false` | Layer 0 Metering | Realtime Audio Hook | Voice turn duration metering and preflight session leases. |
+| `FEATURE_PREPAID_CREDITS` | `false` | Layer 0 Metering | Telemetry Audit Hook | Prepaid credit gating preflight checks and automated balance webhooks. |
 
 When any flag is off, the module is not imported at startup and its routes are not registered (returning HTTP 404).
 
