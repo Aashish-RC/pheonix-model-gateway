@@ -1,50 +1,62 @@
+Authored by a session that read the source. Implementation must be done by a fresh session that sees only this file.
+
 # Reversible PII Masking — Clean-Room Behavior Specification
 
-> **Specification Metadata**  
-> **Status:** Behavior Specification (for clean-room R2 implementation)  
-> **Note on Authorship:** Authored by an architecture session that inspected reference sources (`grepture-proxy`). The R2 implementation must be authored by a clean session that references only this document and does not inspect the AGPL source.
-
----
-
 ### 1. Scope and Objective
-The reversible PII masking subsystem protects user privacy by intercepting chat completion requests, detecting sensitive data (such as email addresses, telephone numbers, and government identification numbers), replacing each sensitive entity with an opaque, structured token placeholder before sending the payload upstream, and transparently restoring the original sensitive values in the downstream response—both in unary JSON payloads and dynamically across SSE (Server-Sent Events) streaming chunks.
+The reversible privacy and sensitive data masking subsystem intercepts completion requests, identifies sensitive personal data (including email addresses, telephone numbers, and government identification numbers), substitutes each sensitive entity with an opaque surrogate token placeholder prior to sending payloads upstream, and transparently restores the original values within downstream model responses—both for complete single responses and incrementally across streaming chunk fragments.
 
 ---
 
-### 2. Upstream Request Transformation (Tokenization)
-1. **Input Inspection**:
-   - The engine inspects all messages in the `messages` array of a `ChatCompletionRequest` whose `content` is a non-null string.
+### 2. Inputs and Transformation
+1. **Inbound Request Content**:
+   - The engine evaluates text message contents in incoming requests.
 2. **Entity Detection**:
-   - Matches substrings against configured entity definitions (e.g. Email, Phone, SSN, Credit Card, IP Address, Physical Address).
-   - Non-overlapping spans are resolved deterministically (longest match wins in overlapping collisions).
-3. **Vault Storage & Placeholder Generation**:
-   - For each detected sensitive entity, the vault generates an opaque surrogate token formatted as:  
-     `<prefix>_<random_entropy>` (e.g. `[TOKEN_EMAIL_a8f9c2d1e4]`).
-   - The token must be alphanumeric/bracketed such that it cannot naturally collide with normal prose or markdown syntax.
-   - The mapping `token -> { originalValue, entityType, createdAt, expiresAt }` is stored in an ephemeral, memory-bounded vault.
-4. **Replacement**:
-   - In the request sent to the upstream provider, the sensitive value is replaced with the opaque token.
-   - The upstream model processes only the opaque placeholder.
+   - Matches substrings against defined sensitive patterns (e.g. Email addresses, Phone numbers, Social Security Numbers, Credit Card numbers, IP addresses, Physical street addresses).
+   - Non-overlapping entity spans are resolved deterministically (longest match takes precedence).
+3. **Vault Storage & Surrogate Generation**:
+   - For each detected sensitive entity, the vault generates an opaque surrogate token (e.g., bracketed alphanumeric label).
+   - The token format must not collide with standard markdown syntax or natural language words.
+   - The association between surrogate token and original value, entity category, creation time, and expiration time is stored in an ephemeral, memory-bounded registry.
+4. **Upstream Substitution**:
+   - Sensitive text within the payload is replaced with its surrogate token before reaching upstream model providers.
 
 ---
 
-### 3. Downstream Response Restoration (Detokenization)
-1. **Unary Restoration**:
-   - For non-streaming responses, every occurrence of an active token in the assistant message `content` is replaced with its corresponding `originalValue`.
-2. **Streaming Restoration (Chunk Boundary Handling)**:
-   - In an SSE stream, tokens may be split across chunk boundaries (e.g., Chunk 1 emits `"[TOKEN_EM"`, and Chunk 2 emits `"AIL_a8f9c2d1e4]"`).
-   - The stream detokenizer maintains a sliding residual buffer:
-     - If a chunk contains an incomplete token prefix (matching the token format delimiter), the partial fragment is retained in the buffer until the closing delimiter arrives or is proven not to be a token.
-     - When a complete token is assembled, it is immediately detokenized to the original entity.
-     - Non-token characters are emitted downstream without delay to preserve time-to-first-byte (TTFB).
+### 3. Downstream Restoration
+1. **Complete Response Restoration**:
+   - For non-streaming responses, occurrences of active surrogate tokens in assistant message text are replaced with original values.
+2. **Streaming Incremental Restoration**:
+   - Across server-sent streaming chunks, surrogate tokens may be split across chunk boundaries.
+   - The streaming processor maintains a residual buffer:
+     - When a chunk ends with a partial surrogate token prefix, the fragment is held until the terminating token boundary is reached or confirmed not to be a surrogate.
+     - As soon as a complete surrogate token is recognized, it is immediately converted back to its original value.
+     - Regular text without surrogate prefixes is emitted without delay to minimize latency.
 
 ---
 
-### 4. Vault Lifecycle, Eviction & Security Invariants
-1. **TTL and Eviction**:
-   - Tokens carry an explicit TTL (default: 3600 seconds / 1 hour).
-   - Expired entries are evicted periodically and upon lookup.
-   - If an unknown or expired token is encountered during detokenization, it is left as-is without raising a runtime exception.
-2. **Zero-Trust Security**:
-   - Vault storage is in-memory and ephemeral. Tokens and original values must never be logged in plain text or emitted to audit events.
-   - The vault provides bidirectional lookup: `tokenize(plainText) -> tokenizedText` and `detokenize(text) -> restoredText`.
+### 4. State Kept
+- Ephemeral in-memory lookup vault:
+  - Mapping from surrogate token to original entity and metadata.
+  - Reverse mapping to avoid creating redundant surrogates for identical values within the same session.
+- Bounded capacity with least-recently-used eviction policy.
+
+---
+
+### 5. Edge Cases
+- **Boundary Splitting Across Multiple Chunks**: A surrogate token split into two or three small byte fragments in stream transport.
+- **Tokens in Unprompted Model Output**: If the model hallucinated or repeated an unrecognized token structure, it is passed through unmodified.
+- **Nested or Adjacent Entities**: Handling contiguous entities separated by punctuation or spaces without corrupting surrounding text.
+- **Punctuation Contiguity**: Ensuring trailing punctuation (commas, periods) is not erroneously captured inside entity values.
+
+---
+
+### 6. Expiry Rules
+- Surrogate token mappings expire after an explicit time-to-live (e.g., 3600 seconds).
+- Expired tokens are purged periodically or during lookup. Unrecognized or expired tokens encountered during response restoration remain unchanged.
+
+---
+
+### 7. Error Behavior
+- Under memory pressure, oldest mappings are safely evicted.
+- Restoration of an expired token fails safe (leaves the token in place rather than crashing or throwing unhandled errors).
+- Plaintext values and token mappings are never logged to public logs or exported in unencrypted audit events.
