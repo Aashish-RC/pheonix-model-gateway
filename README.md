@@ -30,10 +30,10 @@ Status is tracked per-feature derived directly from `PROVENANCE_LEDGER.md`. Clea
 | #14 Exact Response Cache | built | Unverified (flagged for counsel) | Gateway Core | active | no |
 | #15 Sliding-Window TPM Limiter | built | Adapted (MIT) | Gateway Core | active | no |
 | #16 AWS Bedrock SigV4 Adapter | built | Adapted (Apache-2.0) | Gateway Core | active | no |
-| #17 MCP Tool Gateway & Agent Loop | built | Adapted (Apache-2.0) | Layer 1 tool registry | temporarily, flag off (`FEATURE_MCP`) | no |
+| #17 MCP Tool Gateway & Agent Loop | built | Own implementation from public protocol spec | Layer 1 tool registry | temporarily, flag off (`FEATURE_MCP`) | no |
 | #18 Embedded Control Console UI (`/console`) | built | Own implementation | app surface | temporarily, flag off (`FEATURE_CONSOLE_UI`) | no |
 | #19 Reversible PII Masking Engine & Vault | built | Unverified (flagged for counsel) | Gateway Core | active | no |
-| #20 Realtime Audio/WebSocket API (`/v1/realtime`) | built | Adapted (MIT) | Gateway Core | active | no |
+| #20 Realtime Audio/WebSocket API (`/v1/realtime`) | built | Own implementation from public protocol spec | Gateway Core | active | no |
 | #21 Semantic Vector Caching | built | Adapted (Apache-2.0) | Gateway Core | active | no |
 | #22 Audio Speech (TTS) & Transcription (STT) | built | Adapted (MIT) | Gateway Core | active | no |
 | #23 Image Generations & Edits API | built | Adapted (MIT) | Gateway Core | active | no |
@@ -53,14 +53,14 @@ Status is tracked per-feature derived directly from `PROVENANCE_LEDGER.md`. Clea
 | #37 Video Generation API (`/v1/videos`) | built | Adapted (MIT) | Gateway Core | active | no |
 | #38 GeoIP Country & Abuse IP Blacklisting | quarantined, spec only | Quarantined | Layer 0 / Security | no (quarantined) | no |
 | #39 File Management & Fine-Tuning API | built | Adapted (MIT) | Gateway Core | active | no |
-| #40 Dynamic Semantic Tool Search | built | Adapted (Apache-2.0) | Layer 1 tool registry | temporarily, flag off (`FEATURE_TOOL_SEARCH`) | no |
+| #40 Dynamic Semantic Tool Search | built | Own implementation | Layer 1 tool registry | temporarily, flag off (`FEATURE_TOOL_SEARCH`) | no |
 | #41 Modular Guardrails Pipeline | built | Adapted (MIT) | Gateway Core | active | no |
 | #42 Reasoning Content Isolation | built | Adapted (Apache-2.0) | Gateway Core | active | no |
 | #43 Common Expression Language (CEL) Engine | built | Adapted (Apache-2.0) | Gateway Core | active | no |
 | #44 Dual-Tier Mesh Architecture | spec only (`docs/deployment-notes.md`) | Replaced with deployment note | Gateway Deployment | spec only | no |
 | #45 Voice Turn Duration Metering & Preflight Leases | quarantined, spec only | Quarantined | Layer 0 Metering | no (quarantined) | no |
 | #46 Prepaid Credit Gating & Automated Webhooks | quarantined, spec only | Quarantined | Layer 0 Metering | no (quarantined) | no |
-| #47 Agent-to-Agent (A2A) Routing Protocol | built | Adapted (MIT) | Layer 2 orchestration | temporarily, flag off (`FEATURE_A2A`) | no |
+| #47 Agent-to-Agent (A2A) Routing Protocol | built | Own implementation from public protocol spec | Layer 2 orchestration | temporarily, flag off (`FEATURE_A2A`) | no |
 | SSRF Guard (Zero-Trust IP & DNS Validation) | built | Unverified (flagged for counsel) | Gateway Core | active | no |
 | Spec: GeoIP Country & IP Blocking | spec only | Clean-room spec (`docs/specs/geoip-ip-blocking.md`) | Clean-Room Spec | spec only | no |
 | Spec: Voice-Duration Metering & Leases | spec only | Clean-room spec (`docs/specs/voice-duration-metering.md`) | Clean-Room Spec | spec only | no |

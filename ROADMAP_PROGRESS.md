@@ -30,10 +30,10 @@
 | #14 Exact Response Cache | built | Unverified (flagged for counsel) | no | `tests/cache.test.ts` |
 | #15 Sliding-Window TPM Limiter | built | Adapted (MIT) | no | `tests/tpm.test.ts` |
 | #16 AWS Bedrock SigV4 Adapter | built | Adapted (Apache-2.0) | no | `tests/bedrock.test.ts` |
-| #17 MCP Tool Gateway & Agent Loop | built | Adapted (Apache-2.0) | no | `tests/mcp.test.ts` |
+| #17 MCP Tool Gateway & Agent Loop | built | Own implementation from public protocol spec | no | `tests/mcp.test.ts` |
 | #18 Embedded Control Console UI (`/console`) | built | Own implementation | no | `tests/ui.test.ts` |
 | #19 Reversible PII Masking & Vault | built | Unverified (flagged for counsel) | no | `tests/pii-vault.test.ts` |
-| #20 Realtime Audio/WebSocket API | built | Adapted (MIT) | no | `tests/realtime.test.ts` |
+| #20 Realtime Audio/WebSocket API | built | Own implementation from public protocol spec | no | `tests/realtime.test.ts` |
 | #21 Semantic Vector Caching | built | Adapted (Apache-2.0) | no | `tests/semantic-cache.test.ts` |
 | #22 Audio Speech (TTS) & Transcription (STT) | built | Adapted (MIT) | no | `tests/audio.test.ts` |
 | #23 Image Generations & Edits API | built | Adapted (MIT) | no | `tests/images.test.ts` |
@@ -53,14 +53,14 @@
 | #37 Video Generation API | built | Adapted (MIT) | no | `tests/videos.test.ts` |
 | #38 GeoIP Country & Abuse IP Blacklisting | quarantined, spec only | Quarantined | no | Quarantined in `quarantine/geoip.ts` |
 | #39 File Management & Fine-Tuning API | built | Adapted (MIT) | no | `tests/files.test.ts` |
-| #40 Dynamic Semantic Tool Search | built | Adapted (Apache-2.0) | no | `tests/tool-search.test.ts` |
+| #40 Dynamic Semantic Tool Search | built | Own implementation | no | `tests/tool-search.test.ts` |
 | #41 Modular Guardrails Pipeline | built | Adapted (MIT) | no | `tests/guardrails.test.ts` |
 | #42 Reasoning Content Isolation | built | Adapted (Apache-2.0) | no | `tests/reasoning.test.ts` |
 | #43 Common Expression Language (CEL) Engine | built | Adapted (Apache-2.0) | no | `tests/cel.test.ts` |
 | #44 Dual-Tier Mesh Architecture | spec only (`docs/deployment-notes.md`) | Replaced with deployment note | no | `docs/deployment-notes.md` |
 | #45 Voice Turn Duration Metering & Preflight Leases | quarantined, spec only | Quarantined | no | Quarantined in `quarantine/leases.ts` |
 | #46 Prepaid Credit Gating & Automated Webhooks | quarantined, spec only | Quarantined | no | Quarantined in `quarantine/credits.ts` |
-| #47 Agent-to-Agent (A2A) Routing Protocol | built | Adapted (MIT) | no | `tests/a2a.test.ts` |
+| #47 Agent-to-Agent (A2A) Routing Protocol | built | Own implementation from public protocol spec | no | `tests/a2a.test.ts` |
 | SSRF Guard (Zero-Trust IP & DNS Validation) | built | Unverified (flagged for counsel) | no | `tests/ssrf.test.ts` |
 | Clean-Room Spec: GeoIP Country & IP Blocking | spec only | Clean-room spec | no | `docs/specs/geoip-ip-blocking.md` |
 | Clean-Room Spec: Voice-Duration Metering & Leases | spec only | Clean-room spec | no | `docs/specs/voice-duration-metering.md` |
