@@ -4,33 +4,24 @@ Copyright 2026 ra1 Engineering & Contributors
 This product incorporates logic and architectural patterns adapted from open-source projects under permissive licenses:
 
 1. Portkey AI Gateway
-   Copyright (c) 2023 Portkey AI
    License: MIT
    Pinned SHA: 669825cbe89ee51569918b8f78a9db486fd69dd4
-   Used for: Provider protocol adapters, SSE streaming normalization, retry handler concepts.
+   Used for: Provider protocol adapters, SSE streaming normalization, retry handler concepts, handler routing.
 
 2. Bifrost (Maxim AI)
-   Copyright (c) 2024 Maxim AI
    License: Apache License 2.0
    Pinned SHA: fa64346b5aabbfa348c0e1e085dc7b3538bc53f3
-   Used for: Error classification matrix, cooldown tracking, pre-first-byte stream fallback logic.
-   (Enterprise-only subsystems and stubs are excluded).
+   Used for: Error classification matrix, cooldown tracking, pre-first-byte stream fallback logic, routing strategies.
 
 3. Envoy AI Gateway
-   Copyright (c) 2024 Envoy AI Gateway Authors
    License: Apache License 2.0
    Pinned SHA: 12fef6422579f544e84be8167d0979527d3576d4
-   Used for: Protocol translation patterns and cost estimation design concepts.
+   Used for: Protocol translation patterns, CEL expressions, and cost estimation design concepts.
 
 4. LiteLLM (Core Open-Source Modules Only)
-   Copyright (c) 2023 BerriAI
    License: MIT
    Pinned SHA: 7e6fb09da3987c8b75062307695f9083da55feed
-   Used for: Virtual model aliasing patterns.
-   (All enterprise/ directories, commercial features, and model_prices JSON are excluded).
+   Used for: Model aliasing and endpoint translation patterns.
 
-Reference-Only AGPL Clones (Removed from Implementation Workspace):
-- LLM Gateway (Pinned SHA: d41bf1907759c492d7daf7fb6b6f296980982c09) — Reference only for L/D features.
-- Grepture Proxy (Pinned SHA: fc4a569249a06798cf4db698ae7d32a15b43986c) — Reference only for behavior spec.
-Full license texts for archived AGPL repositories are preserved in third_party/licenses/.
-No code or structure from AGPL sources is incorporated in this build.
+AGPL repos were used as behavior references only; see PROVENANCE_LEDGER.md and docs/specs.
+Full license texts for archived reference repositories are preserved in third_party/licenses/.
