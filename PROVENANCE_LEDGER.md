@@ -55,7 +55,6 @@ This ledger records the origin, licensing treatment, specification author, and i
 | `src/security/vault.ts` | #19 Reversible PII Token Vault | Specification in `docs/specs/reversible-pii-masking.md` | N/A (Internal Spec) | Unverified (flagged for counsel) | Architecture Team | Engineering (Same session; unproven isolation) | 2026-10-19 | Gateway Core | active | Flagged |
 | `src/telemetry/body-offload.ts` | #31 Large Payload Body Offload | LiteLLM payload offload patterns | `7e6fb09da3987c8b75062307695f9083da55feed` | Adapted (MIT) | LiteLLM Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (MIT) |
 | `src/telemetry/metrics.ts` | Prometheus Metrics Exposition | Prometheus exposition format specification | N/A (Open Standard) | Own implementation | ra1 Architecture | ra1 Engineering | 2026-10-19 | Gateway Core | active | Yes |
-| `src/telemetry/pricing-data.json` | #8 Pricing Table | Official public pricing pages (OpenAI, Anthropic, Google) | N/A (Provider Pricing) | Own implementation | Provider Pages | Antigravity Engineering | 2026-10-18 | Gateway Core | active | Yes |
 | `src/telemetry/pricing.ts` | #8 Pricing Engine | Envoy AI Gateway design concept (`internal/llmcostcel/`) | `12fef6422579f544e84be8167d0979527d3576d4` | Adapted (Apache-2.0) | Envoy Spec | Antigravity Engineering | 2026-10-18 | Gateway Core | active | Yes (Apache-2.0) |
 | `src/telemetry/tokens.ts` | #25 Token Counting API | Envoy AI Gateway (`internal/translator/tokenize.go`) | `12fef6422579f544e84be8167d0979527d3576d4` | Adapted (Apache-2.0) | Envoy Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (Apache-2.0) |
 | `src/telemetry/tracing.ts` | #12 OpenTelemetry GenAI Spans | OpenTelemetry GenAI Conventions & Portkey (`src/apm/`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (MIT) |
@@ -77,3 +76,12 @@ The following formal specifications exist in `docs/specs/` to support future cle
 - `docs/specs/voice-duration-metering.md`: Spec for Voice Turn Duration Metering & Preflight Leases.
 - `docs/specs/prepaid-credit-gating.md`: Spec for Prepaid Credit Gating & Automated Webhooks.
 - `docs/specs/reversible-pii-masking.md`: Spec for Reversible PII Masking Engine & Vault.
+
+---
+
+### Data Files
+
+| File | Content / Purpose | Primary Source & Path | Source Commit SHA | Treatment | Author / Maintainer | Date | License Notice Status |
+|:---|:---|:---|:---:|:---|:---|:---:|:---:|
+| `src/telemetry/pricing-data.json` | Model Pricing Catalog | Official public pricing pages (OpenAI, Anthropic, Google) | N/A (Provider Pricing) | Public pricing data | Provider Pages / Antigravity Engineering | 2026-10-18 | Yes |
+

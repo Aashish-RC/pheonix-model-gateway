@@ -23,6 +23,11 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV PORT=4000
+ENV FEATURE_CONSOLE_UI=false
+ENV FEATURE_MCP=false
+ENV FEATURE_TOOL_SEARCH=false
+ENV FEATURE_A2A=false
+ENV FEATURE_SECRETS_SYNC=false
 
 # Install production dependencies only
 COPY package.json ./
