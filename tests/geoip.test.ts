@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { GeoIpFilter } from './geoip.js';
+import { GeoIpFilter } from '../src/security/geoip.js';
 
 describe('Feature 38: GeoIP Country & Abuse IP Blacklisting', () => {
   it('allows benign traffic from authorized IP and country', () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { CreditManager } from './credits.js';
+import { CreditManager } from '../src/telemetry/credits.js';
 
 describe('Feature 46: Prepaid Credit Gating & Automated Invoicing Webhooks', () => {
   it('manages account balances, additions, and gating', () => {
