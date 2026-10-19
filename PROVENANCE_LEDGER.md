@@ -4,16 +4,18 @@ This ledger records the origin, licensing treatment, specification author, and i
 
 | File | Feature / Subsystem | Primary Source & Path | Source Commit SHA | Treatment | Spec Author | Implementer | Date | Home layer | Hosted in gateway: temporarily, flag off | License Notice Status |
 |:---|:---|:---|:---:|:---|:---|:---|:---:|:---:|:---:|:---:|
+| `quarantine/cache.ts` | #14 Exact Response Cache (Old) | Portkey (`src/middlewares/cache/`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Gateway Core | no (quarantined) | Quarantined |
 | `quarantine/credits.ts` | #46 Prepaid Credit Gating & Automated Webhooks | Specification in `docs/specs/prepaid-credit-gating.md` | N/A (Quarantine) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Layer 0 Metering | no (quarantined) | Quarantined |
 | `quarantine/geoip.ts` | #38 GeoIP Country & Abuse IP Blacklisting | Specification in `docs/specs/geoip-ip-blocking.md` | N/A (Quarantine) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Layer 0 Security | no (quarantined) | Quarantined |
 | `quarantine/leases.ts` | #45 Voice Turn Duration Metering & Preflight Leases | Specification in `docs/specs/voice-duration-metering.md` | N/A (Quarantine) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Layer 0 Metering | no (quarantined) | Quarantined |
-| `quarantine/tests/credits.test.ts` | #46 Prepaid Credit Test Suite | Isolated test suite for credit gating | N/A (Quarantine) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Layer 0 Metering | no (quarantined) | Quarantined |
-| `quarantine/tests/geoip.test.ts` | #38 GeoIP Test Suite | Isolated test suite for GeoIP filter | N/A (Quarantine) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Layer 0 Security | no (quarantined) | Quarantined |
-| `quarantine/tests/leases.test.ts` | #45 Voice Leases Test Suite | Isolated test suite for voice duration metering | N/A (Quarantine) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Layer 0 Metering | no (quarantined) | Quarantined |
+| `quarantine/pii.ts` | #19 Reversible PII Engine (Old) | Specification in `docs/specs/reversible-pii-masking.md` | N/A (Internal Spec) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Gateway Core | no (quarantined) | Quarantined |
+| `quarantine/ratelimit.ts` | #9 Rate Limiter (Old) | Standard sliding-window memory algorithm | N/A (Standard Algorithm) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Gateway Core | no (quarantined) | Quarantined |
+| `quarantine/ssrf.ts` | SSRF Guard (Old) | Outbound IP validation & DNS resolution | N/A (RFC 1918/6598) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Gateway Core | no (quarantined) | Quarantined |
+| `quarantine/vault.ts` | #19 Reversible PII Token Vault (Old) | Specification in `docs/specs/reversible-pii-masking.md` | N/A (Internal Spec) | Quarantined | Architecture Team | Quarantined | 2026-10-19 | Gateway Core | no (quarantined) | Quarantined |
 | `src/agents/a2a.ts` | #47 Agent-to-Agent (A2A) Routing Protocol | Open public A2A protocol specification | N/A (Public Spec) | Own implementation from public protocol spec | A2A Public Spec | Antigravity Engineering | 2026-10-19 | Layer 2 orchestration | temporarily, flag off (`FEATURE_A2A`) | Yes (Own implementation) |
 | `src/audio/speech.ts` | #22 Audio Speech & Transcription API | Portkey (`src/handlers/createSpeechHandler.ts`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (MIT) |
 | `src/batches/manager.ts` | #24 Batch Processing API | Portkey (`src/handlers/batchesHandler.ts`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (MIT) |
-| `src/caching/cache.ts` | #14 Exact Response Cache | In-memory cache design; reference: Portkey (`src/middlewares/cache/`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Unverified (flagged for counsel) | Antigravity Architecture | Antigravity Engineering | 2026-10-18 | Gateway Core | active | Yes |
+| `src/caching/cache.ts` | #14 Exact Response Cache | Clean-room interface stub (`docs/specs/interfaces.md`) | N/A (Stub) | Quarantined | Architecture Team | Quarantined (stub) | 2026-10-19 | Gateway Core | quarantined stub | Quarantined |
 | `src/caching/semantic.ts` | #21 Semantic Vector Caching | Bifrost (`plugins/semanticcache/`) | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Adapted (Apache-2.0) | Bifrost Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (Apache-2.0) |
 | `src/config/manifest-loader.ts` | #35 Declarative Config Manifest | Envoy AI Gateway (`pulse.yaml` / Gateway API) | `12fef6422579f544e84be8167d0979527d3576d4` | Adapted (Apache-2.0) | Envoy Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (Apache-2.0) |
 | `src/core/engine.ts` | H1-H4 Gateway Engine | ra1 Architecture Contract (`IGatewayEngine`, failover, hooks) | N/A (ra1 Core) | Own implementation | ra1 Architecture | ra1 Engineering | 2026-10-18 | Gateway Core | active | Yes |
@@ -31,7 +33,7 @@ This ledger records the origin, licensing treatment, specification author, and i
 | `src/providers/gcp-auth.ts` | #36 GCP OAuth2 Token Refresher | Envoy AI Gateway (`internal/gcpauth/`) | `12fef6422579f544e84be8167d0979527d3576d4` | Adapted (Apache-2.0) | Envoy Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (Apache-2.0) |
 | `src/providers/gemini.ts` | #2 Provider Translation | Google REST API spec; Envoy (`internal/translator/`) | `12fef6422579f544e84be8167d0979527d3576d4` | Adapted (Apache-2.0) | Google API / Envoy Spec | Antigravity Engineering | 2026-10-18 | Gateway Core | active | Yes (Apache-2.0) |
 | `src/providers/local.ts` | #2 Local Runtimes | OpenAI-compatible specification for llama.cpp & LocalAI | N/A (Open Public Spec) | Own implementation | ra1 Architecture | ra1 Engineering | 2026-10-18 | Gateway Core | active | Yes |
-| `src/providers/ollama.ts` | #2 Provider Translation | Ollama native REST API spec; Portkey (`src/providers/ollama/`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Ollama / Portkey Spec | Antigravity Engineering | 2026-10-18 | Gateway Core | active | Yes (MIT) |
+| `src/providers/ollama.ts` | #2 Provider Translation | Ollama native REST API spec; Portkey (`src/providers/ollama/`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-18 | Gateway Core | active | Yes (MIT) |
 | `src/providers/openai.ts` | #2 Provider Translation | Portkey (`src/providers/openai/`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-18 | Gateway Core | active | Yes (MIT) |
 | `src/providers/registry.ts` | #2 Adapter Registry | Factory/Registry pattern | N/A (Standard Pattern) | Own implementation | ra1 Architecture | ra1 Engineering | 2026-10-18 | Gateway Core | active | Yes |
 | `src/realtime/gateway.ts` | #20 Realtime Audio/WebSocket API | OpenAI Realtime API public specification | N/A (Public Spec) | Own implementation from public protocol spec | OpenAI Realtime Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (Own implementation) |
@@ -39,7 +41,7 @@ This ledger records the origin, licensing treatment, specification author, and i
 | `src/resilience/budgets.ts` | #27 Multi-Tier Hierarchical Budgets | Bifrost (`plugins/governance/`) | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Adapted (Apache-2.0) | Bifrost Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (Apache-2.0) |
 | `src/resilience/classifier.ts` | #10 Error Classification | Bifrost failure classification (`bifrost/core/failureclass.go`) | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Adapted (Apache-2.0) | Bifrost Spec | Antigravity Engineering | 2026-10-18 | Gateway Core | active | Yes (Apache-2.0) |
 | `src/resilience/cooldown.ts` | #4 Cooldown & Health | Bifrost cooldown tracking (`bifrost/core/keyselectors/`) | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Adapted (Apache-2.0) | Bifrost Spec | Antigravity Engineering | 2026-10-18 | Gateway Core | active | Yes (Apache-2.0) |
-| `src/resilience/ratelimit.ts` | #9 Rate Limiter | Standard sliding-window memory algorithm | N/A (Standard Algorithm) | Unverified (flagged for counsel) | Antigravity Architecture | Antigravity Engineering | 2026-10-18 | Gateway Core | active | Yes |
+| `src/resilience/ratelimit.ts` | #9 Rate Limiter | Clean-room interface stub (`docs/specs/interfaces.md`) | N/A (Stub) | Quarantined | Architecture Team | Quarantined (stub) | 2026-10-19 | Gateway Core | quarantined stub | Quarantined |
 | `src/resilience/tpm.ts` | #15 Sliding-Window TPM Limiter | LiteLLM (`proxy/proxy_server.py`) | `7e6fb09da3987c8b75062307695f9083da55feed` | Adapted (MIT) | LiteLLM Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (MIT) |
 | `src/routing/cel.ts` | #43 Common Expression Language (CEL) | Envoy AI Gateway (`internal/llmcostcel/`) | `12fef6422579f544e84be8167d0979527d3576d4` | Adapted (Apache-2.0) | Envoy Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (Apache-2.0) |
 | `src/routing/conditional.ts` | #28 Advanced Conditional Routing | Portkey conditional router (`src/handlers/`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (MIT) |
@@ -50,11 +52,11 @@ This ledger records the origin, licensing treatment, specification author, and i
 | `src/security/byok.ts` | #29 Bring Your Own Key Routing | Portkey handler utils (`src/utils/`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (MIT) |
 | `src/security/geoip.ts` | #38 GeoIP Country & Abuse IP Blacklisting | `docs/specs/geoip-ip-blocking.md` | N/A (Clean-room) | Clean-room (implementer saw only the spec) | session that read AGPL source (see spec header) | fresh session 2026-10-19 | 2026-10-19 | Layer 0 Security | temporarily, flag off (`FEATURE_GEOIP`) | Clean-Room Implementation |
 | `src/security/guardrails/pipeline.ts` | #19 Modular Guardrails Pipeline | Portkey plugins architecture (`src/plugins/`) | `669825cbe89ee51569918b8f78a9db486fd69dd4` | Adapted (MIT) | Portkey Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (MIT) |
-| `src/security/pii.ts` | #19 Reversible PII Engine | Specification in `docs/specs/reversible-pii-masking.md` | N/A (Internal Spec) | Unverified (flagged for counsel) | Architecture Team | Engineering (Same session; unproven isolation) | 2026-10-19 | Gateway Core | active | Flagged |
+| `src/security/pii.ts` | #19 Reversible PII Engine | Clean-room interface stub (`docs/specs/interfaces.md`) | N/A (Stub) | Quarantined | Architecture Team | Quarantined (stub) | 2026-10-19 | Gateway Core | quarantined stub | Quarantined |
 | `src/security/reasoning.ts` | #42 Reasoning Content Isolation | DeepSeek-R1 / Anthropic thinking specs & Bifrost | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Adapted (Apache-2.0) | Bifrost Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (Apache-2.0) |
 | `src/security/secrets.ts` | #26 External Secrets Manager & H3 Hook | Vault / Secrets Manager Integration & H3 Lookup Hook | `fa64346b5aabbfa348c0e1e085dc7b3538bc53f3` | Own implementation | ra1 Architecture | ra1 Engineering | 2026-10-19 | Layer 0 vault | temporarily, flag off (`FEATURE_SECRETS_SYNC`) | Yes |
-| `src/security/ssrf.ts` | SSRF Guard | Outbound IP validation & fail-closed DNS resolution | N/A (RFC 1918/6598) | Unverified (flagged for counsel) | Antigravity Architecture | Antigravity Engineering | 2026-10-18 | Gateway Core | active | Flagged |
-| `src/security/vault.ts` | #19 Reversible PII Token Vault | Specification in `docs/specs/reversible-pii-masking.md` | N/A (Internal Spec) | Unverified (flagged for counsel) | Architecture Team | Engineering (Same session; unproven isolation) | 2026-10-19 | Gateway Core | active | Flagged |
+| `src/security/ssrf.ts` | SSRF Guard | Clean-room interface stub (`docs/specs/interfaces.md`) | N/A (Stub) | Quarantined | Architecture Team | Quarantined (stub) | 2026-10-19 | Gateway Core | quarantined stub | Quarantined |
+| `src/security/vault.ts` | #19 Reversible PII Token Vault | Clean-room interface stub (`docs/specs/interfaces.md`) | N/A (Stub) | Quarantined | Architecture Team | Quarantined (stub) | 2026-10-19 | Gateway Core | quarantined stub | Quarantined |
 | `src/telemetry/body-offload.ts` | #31 Large Payload Body Offload | LiteLLM payload offload patterns | `7e6fb09da3987c8b75062307695f9083da55feed` | Adapted (MIT) | LiteLLM Spec | Antigravity Engineering | 2026-10-19 | Gateway Core | active | Yes (MIT) |
 | `src/telemetry/credits.ts` | #46 Prepaid Credit Gating & Automated Webhooks | `docs/specs/prepaid-credit-gating.md` | N/A (Clean-room) | Clean-room (implementer saw only the spec) | session that read AGPL source (see spec header) | fresh session 2026-10-19 | 2026-10-19 | Layer 0 Metering | temporarily, flag off (`FEATURE_PREPAID_CREDITS`) | Clean-Room Implementation |
 | `src/telemetry/metrics.ts` | Prometheus Metrics Exposition | Prometheus exposition format specification | N/A (Open Standard) | Own implementation | ra1 Architecture | ra1 Engineering | 2026-10-19 | Gateway Core | active | Yes |
@@ -74,19 +76,28 @@ This ledger records the origin, licensing treatment, specification author, and i
 
 ### Clean-Room Specifications & Verification
 
-The following formal specifications exist in `docs/specs/` and have been implemented in a clean-room environment by a fresh session seeing only the written specifications:
+The following formal specifications exist in `docs/specs/` and are scheduled for clean-room implementation or have been implemented by a fresh session seeing only the written specifications:
 - `docs/specs/geoip-ip-blocking.md`: Spec for GeoIP Country & IP Blocking. Implemented in `src/security/geoip.ts` (test: `tests/geoip.test.ts`).
 - `docs/specs/voice-duration-metering.md`: Spec for Voice Turn Duration Metering & Preflight Leases. Implemented in `src/realtime/leases.ts` (test: `tests/leases.test.ts`).
 - `docs/specs/prepaid-credit-gating.md`: Spec for Prepaid Credit Gating & Automated Webhooks. Implemented in `src/telemetry/credits.ts` (test: `tests/credits.test.ts`).
+- `docs/specs/exact-response-cache.md`: Spec for Exact Response Cache.
+- `docs/specs/sliding-window-rate-limiter.md`: Spec for Sliding Window Rate Limiter.
+- `docs/specs/ssrf-guard.md`: Spec for SSRF Guard (Zero-Trust IP & DNS Validation).
 - `docs/specs/reversible-pii-masking.md`: Spec for Reversible PII Masking Engine & Vault.
+- `docs/specs/interfaces.md`: Clean-room TypeScript interface contracts for the five modules (`cache.ts`, `ratelimit.ts`, `ssrf.ts`, `pii.ts`, `vault.ts`).
 
 Verification of session separation relies on the process record, not on technical proof; flagged for counsel.
 
 ---
 
-### Data Files
+### Data and Test Files
 
 | File | Content / Purpose | Primary Source & Path | Source Commit SHA | Treatment | Author / Maintainer | Date | License Notice Status |
 |:---|:---|:---|:---:|:---|:---|:---:|:---:|
 | `src/telemetry/pricing-data.json` | Model Pricing Catalog | Official public pricing pages (OpenAI, Anthropic, Google) | N/A (Provider Pricing) | Public pricing data | Provider Pages / Antigravity Engineering | 2026-10-18 | Yes |
-
+| `quarantine/tests/credits.test.ts` | #46 Prepaid Credit Test Suite (Old) | Isolated test suite for credit gating | N/A (Quarantine) | Quarantined test | Architecture Team | 2026-10-19 | Quarantined |
+| `quarantine/tests/geoip.test.ts` | #38 GeoIP Test Suite (Old) | Isolated test suite for GeoIP filter | N/A (Quarantine) | Quarantined test | Architecture Team | 2026-10-19 | Quarantined |
+| `quarantine/tests/leases.test.ts` | #45 Voice Leases Test Suite (Old) | Isolated test suite for voice duration metering | N/A (Quarantine) | Quarantined test | Architecture Team | 2026-10-19 | Quarantined |
+| `quarantine/tests/cache.test.ts` | #14 Response Cache Test Suite (Old) | Isolated test suite for response cache | N/A (Quarantine) | Quarantined test | Architecture Team | 2026-10-19 | Quarantined |
+| `quarantine/tests/ssrf.test.ts` | SSRF Guard Test Suite (Old) | Isolated test suite for SSRF guard | N/A (Quarantine) | Quarantined test | Architecture Team | 2026-10-19 | Quarantined |
+| `quarantine/tests/pii-vault.test.ts` | #19 PII & Vault Test Suite (Old) | Isolated test suite for PII and token vault | N/A (Quarantine) | Quarantined test | Architecture Team | 2026-10-19 | Quarantined |

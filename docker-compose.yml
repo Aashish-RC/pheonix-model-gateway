@@ -21,6 +21,9 @@ services:
       - FEATURE_TOOL_SEARCH=false
       - FEATURE_A2A=false
       - FEATURE_SECRETS_SYNC=false
+      - FEATURE_GEOIP=false
+      - FEATURE_VOICE_LEASES=false
+      - FEATURE_PREPAID_CREDITS=false
     depends_on:
       ollama:
         condition: service_started
