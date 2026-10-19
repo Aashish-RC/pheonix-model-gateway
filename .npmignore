@@ -1,3 +1,4 @@
 quarantine/
+packages-pending/
 tests/
 *.log

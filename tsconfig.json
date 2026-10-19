@@ -15,5 +15,5 @@
     "sourceMap": true
   },
   "include": ["src/**/*"],
-  "exclude": ["quarantine/**/*", "node_modules", "dist"]
+  "exclude": ["quarantine/**/*", "packages-pending/**/*", "node_modules", "dist"]
 }
