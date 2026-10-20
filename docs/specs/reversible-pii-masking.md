@@ -15,6 +15,7 @@ The reversible privacy and sensitive data masking subsystem intercepts completio
    - Non-overlapping entity spans are resolved deterministically (longest match takes precedence).
 3. **Vault Storage & Surrogate Generation**:
    - For each detected sensitive entity, the vault generates an opaque surrogate token (e.g., bracketed alphanumeric label).
+   - Token placeholder format: `[TOKEN_<TYPE>_<HEX>]` (e.g., `[TOKEN_EMAIL_1a2b3c4d5e6f]`).
    - The token format must not collide with standard markdown syntax or natural language words.
    - The association between surrogate token and original value, entity category, creation time, and expiration time is stored in an ephemeral, memory-bounded registry.
 4. **Upstream Substitution**:

@@ -101,6 +101,9 @@ When any flag is off, the module is not imported at startup and its routes are n
 - **Cooldown Tracking**: Automated cooldown tracking, circuit breaker, and escape routing to local runtimes (Ollama, llama.cpp, LocalAI).
 - **Virtual Tiers**: Smart, fast, vision, and embedding routing tiers with load distribution and failover.
 
+### Security & Privacy
+- **Reversible PII Masking**: Inbound sensitive entities are substituted with surrogate tokens using the `[TOKEN_<TYPE>_<HEX>]` format before upstream dispatch and restored downstream.
+
 ---
 
 ## Quick Start
